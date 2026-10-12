@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" class="custom-cursor-page dot-cursor-page">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Souls in Repetition</title>
+  <link rel="stylesheet" href="section2.css">
+  <link rel="stylesheet" href="responsive.css">
+  <link rel="stylesheet" href="cursor.css">
+  <style>
+   
+    body {
+      background-image: url('assets/15c5defa84960cd0cc92d6a8da57d4b1.jpg'); /* Initial background image */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: background-image 1s ease; 
+    }
+  </style>
+</head>
+<body class="page-section">
+  <div class="w3-bar w3-black">
+    <nav>
+      <a href="index.html" class="w3-bar-item w3-button">Home</a>
+      <a href="section1.html" class="w3-bar-item w3-button">Link 1</a>
+      <a href="section3.html" class="w3-bar-item w3-button">Link 3</a>
+    </nav>
+  </div>
+
+  <p id="changeBackground" class="animated-paragraph">
+    Here, we explore the relentless nature of the soul killer, 
+    portrayed as a shadowy figure lurking in the background. 
+    Instead of mass destruction, the soul killer targets individuals, 
+    wearing them down with each encounter. Through dark imagery and stark contrasts, 
+    we highlight the insidious nature of this phenomenon.
+  </p>
+   
+
+
+
+
+  <script>
+    
+    var paragraph = document.getElementById("changeBackground");
+
+  
+    paragraph.addEventListener("click", function() {
+     
+      setTimeout(function() {
+        document.body.style.backgroundImage = "url('assets/8477cfbce3759b70799f851b91aa8a3f.jpg')"; 
+      }, 100); 
+    });
+  </script>
+  
+
+</body>
+</html>
+

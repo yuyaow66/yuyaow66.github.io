@@ -1,0 +1,11 @@
+/* Native custom cursors replace the arrow; no DOM overlay or movement handler. */
+html.feather-cursor-page {
+  --site-cursor: url('assets/feather-cursor.svg') 37 17;
+}
+html.dot-cursor-page {
+  --site-cursor: url('assets/dot-cursor.svg') 10 10;
+}
+html.custom-cursor-page,
+html.custom-cursor-page * {
+  cursor: var(--site-cursor), none !important;
+}

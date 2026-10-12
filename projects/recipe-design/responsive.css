@@ -1,0 +1,9 @@
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100svh; padding: 24px 20px 50px; }
+h1 { font-size: clamp(44px, 8vw, 100px); overflow-wrap: break-word; }
+p, ul, ol { max-width: 640px; margin: 24px auto; line-height: 1.6; }
+ul, ol { text-align: left; padding-left: 28px; }
+nav { margin-bottom: 40px; }
+nav a { color: inherit; }
+.button { margin: 6px; }
+@media (prefers-reduced-motion: reduce) { .button:hover { transform: none; } }

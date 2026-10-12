@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>abandoned chairs</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-image: url('sky.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        canvas {
+            display: block;
+            background-color: transparent !important;
+        }
+
+        /* Position buttons separately */
+        #home-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+        }
+
+        #next-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+        }
+
+        button {
+            padding: 10px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            font-family: 'Chairs';
+        }
+
+        button:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        #background-text {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-auto-rows: 1fr;
+            align-items: center;
+            justify-items: center;
+            font-family: 'Chairs';
+            font-size: 1.8vw;
+            color: white;
+            text-transform: none;
+            text-align: center;
+            line-height: 1.4;
+            padding: 20px;
+        }
+
+        .text-tile {
+            opacity: 1;
+            cursor: pointer;
+            transition: transform 1.2s ease-out, opacity 1.2s ease-out;
+        }
+
+        .snowflake {
+            transform: translate(
+                    calc(var(--dx, 0px)),
+                    calc(var(--dy, 0px))
+            ) scale(0);
+            opacity: 0;
+        }
+
+        .hidden-layer {
+            display: none !important;
+        }
+
+        /* Info box */
+        #info-box {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            z-index: 1000;
+            display: none;
+        }
+
+        #info-box img {
+            width: 380px;
+        }
+
+        @font-face {
+            font-family: Chairs;
+            src: url("Barrio-Regular.ttf");
+        }
+    </style>
+    <link rel="stylesheet" href="cursor.css">
+    <script src="cursor.js" defer></script>
+</head>
+<body>
+<div id="background-text"></div>
+<div id="info-box"></div>
+
+<script>
+    let scene, camera, renderer, controls;
+    let cubes = [];
+    let textures = [];
+    let raycaster, mouse;
+    let textureLoader;
+	const contents = [
+		'Yesterday my chair broke a leg. I cannot understand what I was thinking about to be that heavy. Then we spend whole night crying: The chair had a leg ache, I had a thought ache. He sat down on the floor, rested his back on a backrest, thinking that I will not throw hhim away, or will tear him apart and burn him... But I have never thrown anything away - I keep everything in me. I have never burnt anything down, except myself. Finally I made up my mind: You should sit in the corner, I will cover you with my clothes not to feel cold, sit and wait, one day I will need you for sure: When I break each leg of my each thought replace them with your survived ones.',
+		'I once dat quietly in the corner of a room, keeping my owner company through countless days and nights. People read books on me, wrote letters, or simply dozed and drifted into thought while resting in my embrace. Back then, I was steady and useful, carrying with me the meaning o eing needed. But I do not know when it began - slowly, I was forgotten. My paint chipped, my arms wore down, my cushion sagged. I oveheard them say "old," "ugly," and so I was pushed outside. The moment the iron door shut, I became a silent burden, left to the wind, the dust, and the passing stares of strangers.',
+		'On the streets of New York I have seen hurried crowds rush by. Some glance at me as though I were invisble; others pause, sit on me to smoke a cigarette, or use me as a temporary prop while moving house. I became part of the publi space, but lost the belinging of a home. The night wind is cold, and I often thin of that warm room under lamplight where I once sayed. It is not that I do not want to be used again - it is just that I cannot choose my fate. Sometimes I envy the new chairs shining in shop windows; sometimes I console myslef - at leeast, in this city, I still exist, I am still seen, even if only as an abandoned thing.',
+        'Morning comes with the rumble of the subway above me. The steel tracks vibrate like a heatbeat, a reminder of a city always in motion. I lean against a damp brick wall, my wooden legs splayed awkwardly after last night rain. Once, I stood proudly in a Brooklyn café, brushed daily with warm roasted beans. People lingered on me for hours - typing, sketching, whispering secrets over lattes. Then came renovation. New stools, new tables, new colors. I was rolled out with the trash, my wheels squeaking a small protest that no one heard.',
+        'Here under the bridge, I serve othe rpurposes, A saxophonist rested on me while his case lay open for coins. A mother tied her child shoelave using my seat as makeshift bench. A night wanderer sat and smoked, staring at the East Rivers shifting lights. They do not know my past, but in their small gestures, I find a faint echo of belonging. I smell rust, rainwater, and the fait sweetness of bakery bread carried by the wind. I tell myself i an no useless - only transformed. The city, indifferent and alive, keeps me in motion even when I cannot move.',
+	];
+
+    function initScene() {
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
+        camera.position.z = 600;
+
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x000000, 0);
+        document.body.appendChild(renderer.domElement);
+
+        textureLoader = new THREE.TextureLoader();
+
+        raycaster = new THREE.Raycaster();
+        mouse = new THREE.Vector2();
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(1, 1, 1);
+        scene.add(directionalLight);
+
+        loadTextures();
+
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        renderer.domElement.addEventListener('click', onMouseClick, false);
+        renderer.domElement.addEventListener('mousemove', onMouseMove, false);
+
+        window.addEventListener('resize', onWindowResize, false);
+
+        animate();
+    }
+
+    function loadTextures() {
+        let loadedTextures = 0;
+
+        for (let i = 1; i <= 57; i++) {
+            textureLoader.load(`chair${i}.jpg`, (texture) => {
+                textures[i - 1] = texture;
+                loadedTextures++;
+
+                if (loadedTextures === 57) {
+                    createCubeSphere();
+                }
+            }, undefined, (error) => {
+                console.error(`Load chair${i}.jpg failed:`, error);
+            });
+        }
+    }
+
+    function createCubeSphere() {
+        const geometry = new THREE.BoxGeometry(57, 57, 57);
+
+        let index = 0;
+        for (let z = 0; z <= 180; z += 30) {
+            for (let x = 0; x < 360; x += 30) {
+                if (z === 180 && x > 0) continue;
+
+                let material = new THREE.MeshPhongMaterial({
+                    map: textures[index % 57],
+                    transparent: true,
+                    opacity: 0.9
+                });
+                const cube = new THREE.Mesh(geometry, material);
+
+                const radius = 400;
+                const phi = THREE.Math.degToRad(z);
+                const theta = THREE.Math.degToRad(x);
+
+                cube.position.x = radius * Math.sin(phi) * Math.cos(theta);
+                cube.position.y = radius * Math.sin(phi) * Math.sin(theta);
+                cube.position.z = radius * Math.cos(phi);
+
+                cube.userData = {
+                    index: index,
+                    textureIndex: index % 57
+                };
+
+                scene.add(cube);
+                cubes.push(cube);
+                index++;
+            }
+        }
+    }
+
+    function onMouseClick(event) {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(cubes);
+        if (intersects.length > 0) {
+            const clickedCube = intersects[0].object;
+            showInfoBox(event.clientX, event.clientY, clickedCube);
+
+            resetCubes();
+            clickedCube.userData.click = true;
+            clickedCube.scale.set(1.1, 1.1, 1.1);
+        } else {
+            document.getElementById('info-box').style.display = 'none';
+            resetCubes();
+        }
+    }
+
+    function onMouseMove(event) {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(cubes);
+        renderer.domElement.style.cursor = intersects.length > 0 ? 'pointer' : 'default';
+    }
+
+    function showInfoBox(x, y, cube) {
+        const infoBox = document.getElementById('info-box');
+        const cubeIndex = cube.userData.index;
+        const textureIndex = cube.userData.textureIndex;
+
+		const content = contents[cubeIndex % contents.length];
+        infoBox.innerHTML = `
+          ${content}<br>
+          <img src="chair${textureIndex + 1}.jpg">
+        `;
+
+        infoBox.style.left = (x + 10) + 'px';
+        infoBox.style.top = (y + 10) + 'px';
+        infoBox.style.display = 'block';
+    }
+
+    function resetCubes() {
+        cubes.forEach(cube => {
+            if (cube.userData.click) {
+                cube.scale.set(1, 1, 1);
+                cube.userData.click = false;
+            }
+        });
+    }
+
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+    }
+
+    window.onload = function () {
+        initScene();
+        initTiles();
+    };
+
+    const TEXT = "I once was green with glimpses of my true self below once I was useful now I'm down to bare bones purely ornamental I've been white as well now I'm a patchwork of all those layers I simply am";
+    const WORDS = TEXT.split(" ");
+    const TOTAL_TILES = WORDS.length;
+
+    function initTiles() {
+        if (window.__tilesInitialized) return;
+        window.__tilesInitialized = true;
+
+        const container = document.getElementById('background-text');
+        const frag = document.createDocumentFragment();
+
+        for (let i = 0; i < TOTAL_TILES; i++) {
+            const div = document.createElement('div');
+            div.className = 'text-tile';
+            div.textContent = WORDS[i];
+            frag.appendChild(div);
+        }
+        container.appendChild(frag);
+
+        container.addEventListener('click', () => {
+            const tiles = document.querySelectorAll('.text-tile');
+            tiles.forEach(tile => {
+                const dx = (Math.random() - 0.5) * window.innerWidth;
+                const dy = (Math.random() - 0.5) * window.innerHeight;
+                tile.style.setProperty('--dx', `${dx}px`);
+                tile.style.setProperty('--dy', `${dy}px`);
+                const delay = Math.random() * 700;
+                setTimeout(() => tile.classList.add('snowflake'), delay);
+            });
+            setTimeout(() => container.classList.add('hidden-layer'), 1800);
+        }, { once: true });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initTiles);
+    } else {
+        initTiles();
+    }
+
+    function goHome() {
+      window.location.href = "./";
+    }
+
+    function goNext() {
+      window.location.href = "next.html";
+    }
+</script>
+
+<!-- Separate button containers -->
+<div id="home-button">
+    <button onclick="goHome()">Home</button>
+</div>
+
+<div id="next-button">
+    <button onclick="goNext()">Let's Find Your Chair</button>
+</div>
+</body>
+</html>

@@ -1,0 +1,193 @@
+/* Shared layout overrides; the original artwork, fonts and effects stay in each page's stylesheet. */
+*, *::before, *::after { box-sizing: border-box; }
+html { width: 100%; height: auto; min-height: 100%; background-color: #000; }
+body {
+  cursor: auto;
+  height: auto;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #000;
+  background-position: center top;
+  overflow-wrap: anywhere;
+  overflow-x: clip;
+  overflow-y: auto;
+}
+img { max-width: 100%; }
+p { font-size: clamp(1rem, 1.4vw, 1.25rem); line-height: 1.6; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a, button, #changeBackground { cursor: pointer; }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid #CAFCFF;
+  outline-offset: 4px;
+}
+footer {
+  position: static;
+  width: 100%;
+  margin: auto 0 0;
+  padding: 1.25rem 1rem;
+  text-align: center;
+}
+footer p {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  font-size: clamp(.75rem, 1vw, 1rem);
+  line-height: 1.5;
+  background: none;
+}
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .25rem;
+  padding: .5rem;
+}
+nav a {
+  float: none;
+  margin: 0;
+  padding: .75rem 1rem;
+  min-height: 44px;
+  text-align: center;
+}
+.page-home #container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+.page-home header { flex: 1; min-width: 0; }
+.page-home {
+  isolation: isolate;
+  background-image: none;
+  animation: none;
+}
+.page-home::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: #000 url('assets/db0c1643abcfacdcf03883c091c6df33.jpg') center top / cover no-repeat;
+  animation: backdropZoom 60s linear infinite alternate;
+}
+@keyframes backdropZoom {
+  from { transform: scale(1.08); transform-origin: center top; }
+  to { transform: scale(1); transform-origin: center top; }
+}
+.menu-trigger {
+  display: block;
+  min-height: 44px;
+  max-width: 100%;
+  margin: 0;
+  padding: .5rem 1rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: clamp(1.1rem, 2.5vw, 1.875rem);
+  text-align: left;
+  cursor: pointer;
+}
+.sidenav { max-width: 100%; z-index: 10; }
+.sidenav a { white-space: normal; }
+.marquee { font-size: clamp(.875rem, 2vw, 1.375rem); }
+.marquee-viewport { overflow: hidden; }
+.page-home h1 {
+  margin: clamp(1.5rem, 4vw, 3rem) auto;
+  padding: 0 1rem;
+  max-width: 100%;
+  font-size: clamp(2.5rem, 8vw, 6.25rem);
+  line-height: 1.2;
+  font-weight: normal;
+  text-wrap: balance;
+}
+.book-container {
+  width: min(100%, 52rem);
+  margin: 0 auto;
+  padding: 1rem clamp(1rem, 4vw, 2rem) 2rem;
+  text-align: center;
+}
+.book-container > a { width: fit-content; margin: 0 auto 1rem; }
+.book {
+  display: block;
+  width: clamp(12rem, 40vw, 30rem);
+  max-width: 100%;
+  height: auto;
+  max-height: 300px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+.book-container .animated-paragraph { margin: 1rem auto 0; max-width: 38rem; }
+.book-container:focus-within .animated-paragraph { display: block; }
+.page-section > p,
+.page-section #container > p {
+  width: min(38rem, calc(100% - 2rem));
+  max-width: 38rem;
+  margin: clamp(2rem, 8vh, 6rem) auto 2rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
+}
+.page-flowers #container { width: 100%; padding-top: clamp(1rem, 4vh, 3rem); }
+.flowers {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: center;
+  gap: clamp(.5rem, 2vw, 1.5rem);
+  width: min(70rem, calc(100% - 2rem));
+  margin: 0 auto;
+}
+.flowers img {
+  width: 100%;
+  height: clamp(8rem, 16vw, 12.5rem);
+  object-fit: contain;
+}
+.choice-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .75rem;
+  width: min(48rem, calc(100% - 2rem));
+  margin: 0 auto;
+}
+.choice-buttons .custom-button { margin: 0; min-height: 44px; }
+#sentenceDisplay {
+  width: min(38rem, calc(100% - 2rem));
+  margin: 1.5rem auto 2rem;
+  padding: 0 1rem;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.6;
+}
+.page-zine section {
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  background-size: contain;
+  background-position: center;
+}
+@media (max-width: 900px) {
+  .flowers { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  body, html { animation: none; }
+  .page-home::before { animation: none; }
+  body { background-size: cover; }
+  .page-home { background-position: center top; }
+  .flowers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .flowers img { height: clamp(8rem, 35vw, 11rem); }
+  .choice-buttons .custom-button { flex: 1 1 7rem; }
+  .page-zine section { background-attachment: scroll; }
+}
+@media (hover: none), (pointer: coarse) {
+  body { cursor: auto; }
+  .book-container .animated-paragraph { display: block; }
+  .page-zine section { background-attachment: scroll; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .fade-in, #container { opacity: 1; }
+  .marquee { white-space: normal; padding: 0 1rem; text-align: center; }
+}

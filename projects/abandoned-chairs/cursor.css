@@ -1,0 +1,69 @@
+@media (hover: hover) and (pointer: fine) {
+  html.chairs-cursor-active,
+  html.chairs-cursor-active * {
+    cursor: none !important;
+  }
+}
+
+.chairs-cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 120ms ease;
+  --cursor-color: #6875ff;
+}
+
+.chairs-cursor.is-visible {
+  opacity: 1;
+}
+
+.chairs-cursor-dot,
+.chairs-cursor-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+
+.chairs-cursor-dot::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--cursor-color);
+  transform: scale(1);
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.chairs-cursor-ring::before {
+  content: '';
+  box-sizing: border-box;
+  display: block;
+  width: 52px;
+  height: 52px;
+  border: 2px dotted var(--cursor-color);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.65);
+  transition: opacity 180ms ease, transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.chairs-cursor.is-hovering .chairs-cursor-dot::before {
+  transform: scale(0.5);
+}
+
+.chairs-cursor.is-hovering .chairs-cursor-ring::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chairs-cursor,
+  .chairs-cursor-dot::before,
+  .chairs-cursor-ring::before {
+    transition: none;
+  }
+}

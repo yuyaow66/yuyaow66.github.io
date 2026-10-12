@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" class="custom-cursor-page dot-cursor-page">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Souls in Repetition</title>
+  <link rel="stylesheet" href="section3.css">
+  <link rel="stylesheet" href="responsive.css">
+  <link rel="stylesheet" href="cursor.css">
+  <script>
+    function displaySentence(sentence) {
+      document.getElementById("sentenceDisplay").innerText = sentence;
+    }
+  </script>
+</head>
+<body class="page-section">
+  
+  <div class="w3-bar w3-black">
+    <nav>
+      <a href="index.html" class="w3-bar-item w3-button">Home</a>
+      <a href="section1.html" class="w3-bar-item w3-button">Link 1</a>
+      <a href="section2.html" class="w3-bar-item w3-button">Link 2</a>
+    </nav>
+  </div>
+  
+  <p class="animated-paragraph">
+    Using excerpts from Antonio Porchia's writings, 
+    we examine the notion that everything is ultimately ephemeral. 
+    Each choice made by individuals leads to a unique outcome, 
+    shaping their journey through life. Through interactive elements, 
+    readers can explore different paths and their corresponding consequences.
+  </p>
+  
+  <div class="choice-buttons">
+  <button class="custom-button" onclick="displaySentence('One lives in the hope of becoming a memory.')">Choice 1</button>
+  <button class="custom-button" onclick="displaySentence('We become aware of the void as we fill it.')">Choice 2</button>
+  <button class="custom-button" onclick="displaySentence('I know what I have given you... I do not know what you have received.')">Choice 3</button>
+  <button class="custom-button" onclick="displaySentence('When the superficial wearies me, it wearies me so much that I need an abyss in order to rest.')">Choice 4</button>
+  <button class="custom-button" onclick="displaySentence('They will say you are on the wrong road, if it is your own.')">Choice 5</button>
+
+  </div>
+  <div id="sentenceDisplay" aria-live="polite"></div>
+
+  <footer>
+    <p>&copy; 2024 Souls in Repetition. All rights reserved.</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
+

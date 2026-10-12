@@ -1,0 +1,305 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  animation: backgroundAnimation 60s linear infinite alternate; 
+
+}
+
+@keyframes backgroundAnimation {
+  0% {
+    background-size: 200%; 
+  }
+  100% {
+    background-size: 100%; 
+  }
+}
+
+
+body {
+  font-family: italiana, sans-serif;
+  margin-top: 0px;
+  padding: 0;
+  overflow: scroll;
+  background-image: url('assets/15c5defa84960cd0cc92d6a8da57d4b1.jpg');
+  background-size:100%;
+  background-repeat: no-repeat; 
+  text-align:center; 
+  color: white;
+
+}
+
+footer {
+  
+  bottom: 0;
+  width: 100%;
+margin-left:50px;
+}
+
+nav {
+  background-color: transparent;
+  overflow: hidden;
+}
+a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+   display: block; 
+    margin-bottom: 20px; 
+}
+
+
+
+
+nav a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 20px;
+  text-decoration: none;
+}
+a:hover {
+ color:#CAFCFF;
+  text-shadow: white;
+}
+nav a:hover {
+  background-color: white;
+  color: black;
+}
+
+@media screen and (max-width: 600px) {
+  nav a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+
+
+h1{
+  font-size:100px;
+  font-family:pixel, serif;
+}
+@font-face {
+  font-family: italiana;
+  src: url("assets/Italiana-Regular.ttf");
+}
+
+p{ max-width: 600px; 
+  margin-top: 150px;
+  margin-left:450px;
+  padding: 0 20px;
+position: center,fixed;
+  text-align:left;
+  background-color:white;
+  color:grey;
+  opacity:70%;
+  padding: 20px; 
+  border-radius: 10px;
+  
+  
+}
+
+@keyframes color-flow {
+  0% { color: #FFE3CA; }
+  50% { color: #f34a8e; }
+  100% { color: #18dcff; }
+}
+
+.color-flow h1, .color-flow p {
+  animation: color-flow 5s infinite alternate;
+}
+
+
+
+@keyframes fadeInAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animated-paragraph {
+  animation: moveUpDown 3s ease-in-out infinite alternate;
+   background-color: black; 
+  opacity:70%;
+  color: white; 
+  padding: 20px; 
+  border-radius: 10px;
+}
+
+
+@keyframes moveUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px); 
+  }
+}
+
+#title {
+ 
+  color: white;
+}
+
+
+#title:not(:hover) {
+  animation: none;
+}
+
+
+#title:hover {
+  animation: neonLight 1.5s ease-in-out infinite alternate;
+}
+
+
+@keyframes neonLight {
+  0% {
+    color: #ADCBE0; 
+  }
+  50% {
+    color: #BDADE0; 
+  }
+  100% {
+    color: #A6A5E1; 
+  }
+}
+
+#container {
+  opacity: 0;
+}
+
+
+@keyframes fadeInAnimation {
+  from {
+    opacity: 0; 
+  }
+  to {
+    opacity: 1; 
+  }
+}
+
+
+.fade-in {
+  animation: fadeInAnimation 1.5s ease-in forwards; 
+}
+
+.flower1, .flower2, .flower3, .flower4, .flower5 {
+  height: 200px;
+  width: auto;
+  transition: transform 0.5s ease; 
+}
+
+.flower1:hover, .flower2:hover, .flower3:hover, .flower4:hover, .flower5:hover {
+  transform: rotate(10deg); 
+}
+
+* {box-sizing: border-box}
+
+.mySlides {display: none}
+img {vertical-align: middle;}
+
+
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin-left:18%;
+   
+}
+
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbbbbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+
+.custom-button {
+  background-color: blue; 
+  border: none;
+  color: white; 
+  font-family: italiana, sans-serif;
+  padding: 10px 20px; 
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px; 
+}
+
+
+.custom-button:hover {
+  background-color: darkblue; 
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  
+  padding: 10px 0; 
+  color: white; 
+}
