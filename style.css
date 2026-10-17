@@ -53,12 +53,14 @@
 
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--paper); text-align: center; }
+.title-filter-definitions { position: absolute; overflow: hidden; pointer-events: none; }
 .home-intro .title-letter {
   position: relative;
   display: inline-block;
   color: transparent;
   isolation: isolate;
-  filter: url("assets/textures/printed-ink.svg?v=two-ink-2#printed-ink");
+  -webkit-filter: url("#printed-ink");
+  filter: url("#printed-ink");
 }
 .home-intro .title-letter::before,
 .home-intro .title-letter::after {

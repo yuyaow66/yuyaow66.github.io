@@ -8,10 +8,11 @@
   <title>Portfolio — Yuyao Wang</title>
   <link rel="preload" href="assets/fonts/BontoTrial-Regular.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="assets/fonts/Metropolis-Regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="style.css?v=mobile-cue-visible-1">
-  <script src="script.js?v=mobile-simple-nav-1" defer></script>
+  <link rel="stylesheet" href="style.css?v=mobile-projects-ink-1">
+  <script src="script.js?v=mobile-projects-ink-1" defer></script>
 </head>
 <body class="landing-page">
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" class="title-filter-definitions" aria-hidden="true" focusable="false"><defs><filter id="printed-ink" x="-12%" y="-14%" width="124%" height="128%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".16" numOctaves="3" seed="13" result="edge"/><feDisplacementMap in="SourceGraphic" in2="edge" scale="2.2" xChannelSelector="R" yChannelSelector="G" result="rough"/><feTurbulence type="fractalNoise" baseFrequency=".91 .4" numOctaves="2" seed="29" result="grain"/><feColorMatrix in="grain" type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .2126 .7152 .0722 0 0"/><feComponentTransfer result="coverage"><feFuncA type="table" tableValues="0 .15 .48 .76 .92 1 1 1"/></feComponentTransfer><feComposite in="rough" in2="coverage" operator="in"/></filter></defs></svg>
   <div class="original-background" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="portfolio-header">
@@ -31,6 +32,89 @@
       </div>
       <a class="mobile-work-cue" href="work.html" aria-label="View selected works"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 9 7 7 7-7"></path></svg></a>
     </section>
+    <template id="mobile-projects-template">
+    <section class="work-section" id="work" aria-labelledby="work-title">
+      <h2 id="work-title">Selected work</h2>
+      <section class="work-category" id="web-design" aria-labelledby="web-design-title">
+        <div class="category-heading">
+          <h2 id="web-design-title">Web design</h2>
+        </div>
+        <div class="work-grid">
+          <article class="work" id="zine">
+            <a class="work-image" href="work-details/souls-in-repetition.html"><img src="assets/digital-zine-homepage.png" alt="Souls in Repetition — Digital Zine website homepage" width="1080" height="677" fetchpriority="high"></a>
+            <h3><a href="work-details/souls-in-repetition.html">Souls in Repetition</a></h3>
+          </article>
+          <article class="work" id="abandoned-chairs">
+            <a class="work-image" href="work-details/abandoned-chairs.html"><img src="assets/abandoned-chairs-homepage.png" alt="Abandoned Chairs — interactive website homepage" width="1080" height="677" loading="lazy"></a>
+            <h3><a href="work-details/abandoned-chairs.html">Abandoned Chairs</a></h3>
+          </article>
+          <article class="work" id="in-praise-of-shadows">
+            <a class="work-image" href="work-details/in-praise-of-shadows.html"><img src="assets/in-praise-of-shadows-homepage.png" alt="In Praise of Shadows — website homepage" width="1440" height="816" loading="lazy"></a>
+            <h3><a href="work-details/in-praise-of-shadows.html">In Praise of Shadows</a></h3>
+          </article>
+          <article class="work" id="mome-choix">
+            <a class="work-image" href="work-details/mome-choix.html"><img src="assets/mome-choix-homepage.png" alt="Môme Choix — website homepage" width="1440" height="903" loading="lazy"></a>
+            <h3><a href="work-details/mome-choix.html">Môme Choix</a></h3>
+            <p class="work-description">Assisted with UI, layout, and typography refinements under the guidance of manager Nan Yu.</p>
+          </article>
+          <article class="work" id="recipe">
+            <a class="work-image" href="work-details/recipe-design.html"><img src="assets/recipe-homepage.png" alt="Egg Yolk Pastry — Recipe Design website homepage" width="1080" height="677" loading="lazy"></a>
+            <h3><a href="work-details/recipe-design.html">Recipe Design</a></h3>
+            <p class="work-status">To be updated</p>
+          </article>
+        </div>
+      </section>
+      <section class="work-category" id="book-design" aria-labelledby="book-design-title">
+        <div class="category-heading">
+          <h2 id="book-design-title">Book design</h2>
+        </div>
+        <div class="work-grid">
+          <article class="work" id="indigo">
+            <a class="work-image" href="work-details/indigo.html" aria-label="View Indigo project">
+              <video class="work-video" autoplay muted loop playsinline preload="metadata" aria-label="Indigo book mockup">
+                <source src="assets/videos/indigo-book-web.mp4" type="video/mp4">
+
+              </video>
+            </a>
+            <h3><a href="work-details/indigo.html">Indigo</a></h3>
+          </article>
+          <article class="work" id="who-cares-chairs">
+            <a class="work-image" href="work-details/who-chairs.html"><img src="assets/who-cares-chairs.gif" alt="Who Cares? Chairs — book cover and interior spreads in page order" width="1600" height="1200" loading="lazy" decoding="async"></a>
+            <h3><a href="work-details/who-chairs.html">Who Chairs？</a></h3>
+          </article>
+          <article class="work" id="abandoned-chairs-mockup">
+            <a class="work-image" href="work-details/abandoned-chairs-book.html" aria-label="View Abandoned Chairs Book Design project">
+              <video class="work-video" autoplay muted loop playsinline preload="metadata" aria-label="Abandoned Chairs mockup">
+                <source src="assets/videos/abandoned-chairs-book-web.mp4" type="video/mp4">
+              </video>
+            </a>
+            <h3><a href="work-details/abandoned-chairs-book.html">Abandoned Chairs Mockup</a></h3>
+          </article>
+          <article class="work" id="home-interior-evocation">
+            <a class="work-image" href="work-details/home-interior-evocation.html" aria-label="View Home: Interior Evocation project">
+              <video class="work-video" autoplay muted loop playsinline preload="metadata" aria-label="Home: Interior Evocation book mockup">
+                <source src="assets/videos/home-interior-evocation-web.mp4" type="video/mp4">
+              </video>
+            </a>
+            <h3><a href="work-details/home-interior-evocation.html">Home: Interior Evocation</a></h3>
+          </article>
+        </div>
+      </section>
+      <section class="work-category" id="motion" aria-labelledby="motion-title">
+        <div class="category-heading"><h2 id="motion-title">Motion</h2></div>
+        <p class="work-description">Coming soon</p>
+      </section>
+    </section>
+    <section class="illustrations-section" id="illustrations" aria-labelledby="illustrations-title">
+      <h2 id="illustrations-title">Illustrations</h2>
+      <div class="illustrations-grid">
+        <a class="illustration" href="work-details/illustration-01.html" aria-label="View illustration 1 project"><img src="assets/illustrations/illustration-01.jpg" alt="A luminous flower beside a figure with flowing iridescent hair." width="1280" height="1280" loading="lazy" decoding="async"></a>
+        <a class="illustration" href="work-details/illustration-02.html" aria-label="View illustration 2 project"><img src="assets/illustrations/illustration-02.jpg" alt="A pink-haired figure surrounded by pastel faces, candles, and flowing shapes." width="1280" height="1357" loading="lazy" decoding="async"></a>
+        <a class="illustration" href="work-details/illustration-03.html" aria-label="View illustration 3 project"><img src="assets/illustrations/illustration-03.jpg" alt="A figure with flowing purple hair amid green forms and orange eyes." width="1280" height="1497" loading="lazy" decoding="async"></a>
+        <a class="illustration" href="work-details/illustration-04.html" aria-label="View illustration 4 project"><img src="assets/illustrations/illustration-04.jpg" alt="A figure with butterfly wings surrounded by pink flowers and mint-green light." width="1280" height="1436" loading="lazy" decoding="async"></a>
+      </div>
+    </section>
+    </template>
   </main>
 </body>
 </html>

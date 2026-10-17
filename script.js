@@ -66,6 +66,52 @@ if (document.body.classList.contains("landing-page")) {
   }
 
   document.querySelector(".landing-hero").append(wings);
+
+  const mobileProjectsMedia = window.matchMedia("(max-width: 760px)");
+  const mobileProjectsTemplate = document.getElementById("mobile-projects-template");
+  const workCue = document.querySelector(".mobile-work-cue");
+  const projectEntry = document.querySelector(".project-entry");
+  let mobileProjects;
+
+  function updateMobileProjects() {
+    if (!mobileProjectsTemplate) return;
+    if (mobileProjectsMedia.matches && !mobileProjects) {
+      mobileProjects = document.createElement("div");
+      mobileProjects.className = "mobile-projects";
+      mobileProjects.append(mobileProjectsTemplate.content.cloneNode(true));
+      document.querySelector(".landing-main").append(mobileProjects);
+      workCue.href = "#work";
+      projectEntry.href = "#work";
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        mobileProjects.querySelectorAll("video[autoplay]").forEach((video) => {
+          video.removeAttribute("autoplay");
+          video.pause();
+        });
+      }
+    } else if (!mobileProjectsMedia.matches && mobileProjects) {
+      mobileProjects.remove();
+      mobileProjects = null;
+      workCue.href = "work.html";
+      projectEntry.href = "work.html";
+    }
+  }
+
+  updateMobileProjects();
+  mobileProjectsMedia.addEventListener("change", updateMobileProjects);
+}
+
+const projectBack = document.querySelector(".project-back");
+
+if (projectBack) {
+  const projectBackMedia = window.matchMedia("(max-width: 760px)");
+  const projectBackHref = projectBack.getAttribute("href");
+
+  function updateProjectBack() {
+    projectBack.href = projectBackMedia.matches ? projectBackHref.replace("work.html#", "index.html#") : projectBackHref;
+  }
+
+  updateProjectBack();
+  projectBackMedia.addEventListener("change", updateProjectBack);
 }
 
 const contactMenus = document.querySelectorAll(".contact-menu");
