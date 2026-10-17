@@ -227,35 +227,21 @@ if (document.body.classList.contains("landing-page")) {
 
   document.querySelector(".landing-hero").append(wings);
 
-  const mobileProjectsMedia = window.matchMedia("(max-width: 760px)");
-  const mobileProjectsTemplate = document.getElementById("mobile-projects-template");
-  const workCue = document.querySelector(".mobile-work-cue");
-  const projectEntry = document.querySelector(".project-entry");
-  let mobileProjects;
-  let disposeMobilePreviews;
-
-  function updateMobileProjects() {
-    if (!mobileProjectsTemplate) return;
-    if (mobileProjectsMedia.matches && !mobileProjects) {
-      mobileProjects = document.createElement("div");
-      mobileProjects.className = "mobile-projects";
-      mobileProjects.append(mobileProjectsTemplate.content.cloneNode(true));
-      document.querySelector(".landing-main").append(mobileProjects);
-      workCue.href = "#work";
-      projectEntry.href = "#work";
-      disposeMobilePreviews = initializeVideoPreviews(mobileProjects);
-      initializeProjectViews(mobileProjects);
-    } else if (!mobileProjectsMedia.matches && mobileProjects) {
-      disposeMobilePreviews();
-      mobileProjects.remove();
-      mobileProjects = null;
-      workCue.href = "work.html";
-      projectEntry.href = "work.html";
-    }
+  const projectsTemplate = document.getElementById("projects-template");
+  if (projectsTemplate) {
+    const homeProjects = document.createElement("div");
+    homeProjects.className = "homepage-projects";
+    homeProjects.append(projectsTemplate.content.cloneNode(true));
+    document.querySelector(".landing-main").append(homeProjects);
+    document.querySelector(".mobile-work-cue").href = "#work";
+    document.querySelector(".project-entry").href = "#work";
+    document.querySelectorAll(".nav-projects a").forEach((link) => {
+      link.setAttribute("href", link.hash);
+    });
+    initializeVideoPreviews(homeProjects);
+    initializeProjectViews(homeProjects);
+    initializeScrollNavigation(homeProjects);
   }
-
-  updateMobileProjects();
-  mobileProjectsMedia.addEventListener("change", updateMobileProjects);
 }
 
 const projectBack = document.querySelector(".project-back");
@@ -404,4 +390,40 @@ function initializeProjectViews(root) {
       });
     });
   });
+}
+
+function initializeScrollNavigation(root) {
+  const links = [...document.querySelectorAll(".nav-projects a")];
+  const sections = links.map((link) => root.querySelector(link.hash));
+  let currentSection = -2;
+  let scheduled = false;
+
+  function update() {
+    const readingLine = Math.min(window.innerHeight * .25, 128);
+    let activeSection = -1;
+    sections.forEach((section, index) => {
+      if (section && section.getBoundingClientRect().top <= readingLine) activeSection = index;
+    });
+    if (activeSection === currentSection) return;
+    currentSection = activeSection;
+    links.forEach((link, index) => {
+      if (index === activeSection) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
+  }
+
+  function scheduleUpdate() {
+    if (scheduled) return;
+    scheduled = true;
+    window.requestAnimationFrame(() => {
+      scheduled = false;
+      update();
+    });
+  }
+
+  window.addEventListener("scroll", scheduleUpdate, { passive: true });
+  window.addEventListener("resize", scheduleUpdate);
+  window.addEventListener("pageshow", scheduleUpdate);
+  document.fonts.ready.then(scheduleUpdate);
+  update();
 }
