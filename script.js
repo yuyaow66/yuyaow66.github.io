@@ -122,6 +122,84 @@ function updateVisiblePreviews() {
 
 document.addEventListener("visibilitychange", updateVisiblePreviews);
 previewMotion.addEventListener("change", updateVisiblePreviews);
+if (document.body.classList.contains("work-page")) {
+  const desktopWorkMedia = window.matchMedia("(min-width: 761px)");
+  const categoryNavigation = document.querySelector(".nav-projects");
+  const categoryLinks = [...categoryNavigation.querySelectorAll("a")];
+  const categoryPanels = categoryLinks.map((link) => document.getElementById(link.hash.slice(1)));
+  const categoryLabels = categoryPanels.map((panel) => panel.getAttribute("aria-labelledby"));
+  const workSection = document.getElementById("work");
+
+  function updateWorkCategories(resetScroll = false) {
+    const desktop = desktopWorkMedia.matches;
+    const target = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+    const activePanel = categoryPanels.find((panel) => panel === target || panel.contains(target)) || categoryPanels[0];
+    document.body.classList.toggle("work-tabs-active", desktop);
+    if (desktop) {
+      categoryNavigation.setAttribute("role", "tablist");
+      categoryNavigation.setAttribute("aria-label", "Work categories");
+    } else {
+      categoryNavigation.removeAttribute("role");
+      categoryNavigation.removeAttribute("aria-label");
+    }
+    categoryPanels.forEach((panel, index) => {
+      const link = categoryLinks[index];
+      const selected = panel === activePanel;
+      panel.hidden = desktop && !selected;
+      if (desktop) {
+        link.id = `category-tab-${panel.id}`;
+        link.setAttribute("role", "tab");
+        link.setAttribute("aria-controls", panel.id);
+        link.setAttribute("aria-selected", String(selected));
+        link.tabIndex = selected ? 0 : -1;
+        panel.setAttribute("role", "tabpanel");
+        panel.setAttribute("aria-labelledby", link.id);
+        panel.tabIndex = 0;
+      } else {
+        link.removeAttribute("role");
+        link.removeAttribute("aria-controls");
+        link.removeAttribute("aria-selected");
+        link.removeAttribute("tabindex");
+        panel.removeAttribute("role");
+        panel.removeAttribute("tabindex");
+        panel.setAttribute("aria-labelledby", categoryLabels[index]);
+      }
+    });
+    workSection.hidden = desktop && activePanel.id === "illustrations";
+    if (desktop && resetScroll) window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }
+
+  function activateWorkCategory(link) {
+    if (window.location.hash !== link.hash) window.history.pushState(null, "", link.hash);
+    updateWorkCategories(true);
+  }
+
+  categoryLinks.forEach((link, index) => {
+    link.addEventListener("click", (event) => {
+      if (!desktopWorkMedia.matches || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      activateWorkCategory(link);
+    });
+    link.addEventListener("keydown", (event) => {
+      if (!desktopWorkMedia.matches) return;
+      let nextIndex;
+      if (event.key === "ArrowRight") nextIndex = (index + 1) % categoryLinks.length;
+      else if (event.key === "ArrowLeft") nextIndex = (index + categoryLinks.length - 1) % categoryLinks.length;
+      else if (event.key === "Home") nextIndex = 0;
+      else if (event.key === "End") nextIndex = categoryLinks.length - 1;
+      else return;
+      event.preventDefault();
+      categoryLinks[nextIndex].focus({ preventScroll: true });
+      activateWorkCategory(categoryLinks[nextIndex]);
+    });
+  });
+  window.addEventListener("popstate", () => updateWorkCategories(true));
+  window.addEventListener("hashchange", () => updateWorkCategories(true));
+  window.addEventListener("pageshow", () => updateWorkCategories(categoryLinks.some((link) => link.hash === window.location.hash)));
+  desktopWorkMedia.addEventListener("change", () => updateWorkCategories(true));
+  updateWorkCategories();
+}
+
 initializeVideoPreviews(document);
 
 if (document.body.classList.contains("landing-page")) {

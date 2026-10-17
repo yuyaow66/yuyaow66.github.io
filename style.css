@@ -187,6 +187,11 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
 h2 { font-size: clamp(28px, 3.2vw, 38px); line-height: 1.2; font-weight: 700; margin: 0 0 80px; color: var(--heading); text-shadow: none; }
 .work-category { text-align: center; scroll-margin-top: 16px; }
 .work-category + .work-category { margin-top: 88px; }
+.work-tabs-active .work-category + .work-category { margin-top: 0; }
+.work-tabs-active [role="tabpanel"][hidden], .work-tabs-active #work[hidden] { display: none; }
+.work-tabs-active #illustrations { padding-top: 56px; }
+.work-tabs-active .nav-projects [role="tab"] { color: var(--muted); }
+.work-tabs-active .nav-projects [aria-selected="true"] { color: var(--ink); text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; }
 .category-heading { margin-bottom: 28px; }
 .category-heading > h2 { margin: 0; font-size: 18px; line-height: 1.4; font-weight: 700; color: var(--heading); }
 .work-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px 12px; align-items: start; }

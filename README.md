@@ -2,7 +2,7 @@
 
 Personal portfolio: https://yuyaow66.github.io/
 
-The homepage introduces the portfolio. On phones, the projects continue below the full-height introduction; on larger screens, `work.html` holds the Web design, Book design, Motion, and Illustrations sections. The site also includes an About drawer, individual project pages, contact details, and the current resume.
+The homepage introduces the portfolio. On phones, the projects continue below the full-height introduction; on larger screens, `work.html` displays one category at a time, selected through the Web design, Book design, Motion, and Illustrations navigation. The site also includes an About drawer, individual project pages, contact details, and the current resume.
 
 ## Project websites
 
