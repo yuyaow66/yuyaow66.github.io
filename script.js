@@ -306,8 +306,8 @@ if (aboutTriggers.length) {
     </div>
     <div class="about-drawer-body">
       <img class="about-drawer-portrait" src="assets/about-illustration.jpg" alt="Portrait illustration by Yuyao Wang" width="96" height="96">
-      <p class="about-english" lang="en">I’m Yuyao Wang, a designer and illustrator who graduated from Parsons School of Design. My projects often start with everyday objects and the memories they bring back. I use soft colors and layered images to give familiar things a dreamlike feel. When designing websites, I like to include small details that people can discover as they explore.</p>
-      <p class="about-chinese" lang="zh-CN">我是王雨遥，毕业于帕森斯设计学院，平时做书、做网页，也画插画。我常常从日常物件和它们带来的记忆开始创作，用柔和的色彩和层叠的图像，让熟悉的东西多一点梦境的感觉。做网页时，我喜欢留一些可以点击、慢慢发现的小细节。</p>
+      <p class="about-english" lang="en">I’m Yuyao Wang, a designer and illustrator currently pursuing a Bachelor of Arts degree at Parsons School of Design. My projects often start with everyday objects and the memories they bring back. I use soft colors and layered images to give familiar things a dreamlike feel. When designing websites, I like to include small details that people can discover as they explore.</p>
+      <p class="about-chinese" lang="zh-CN">我是王雨遥，一名设计师和插画师，目前在帕森斯设计学院攻读文学学士学位。平时做书、做网页，也画插画。我常常从日常物件和它们带来的记忆开始创作，用柔和的色彩和层叠的图像，让熟悉的东西多一点梦境的感觉。做网页时，我喜欢留一些可以点击、慢慢发现的小细节。</p>
     </div>`;
   document.body.append(aboutPanel);
   let aboutOpener;
