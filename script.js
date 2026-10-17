@@ -138,9 +138,11 @@ if (document.body.classList.contains("work-page")) {
     if (desktop) {
       categoryNavigation.setAttribute("role", "tablist");
       categoryNavigation.setAttribute("aria-label", "Work categories");
+      categoryNavigation.setAttribute("aria-orientation", "vertical");
     } else {
       categoryNavigation.removeAttribute("role");
       categoryNavigation.removeAttribute("aria-label");
+      categoryNavigation.removeAttribute("aria-orientation");
     }
     categoryPanels.forEach((panel, index) => {
       const link = categoryLinks[index];
@@ -183,8 +185,8 @@ if (document.body.classList.contains("work-page")) {
     link.addEventListener("keydown", (event) => {
       if (!desktopWorkMedia.matches) return;
       let nextIndex;
-      if (event.key === "ArrowRight") nextIndex = (index + 1) % categoryLinks.length;
-      else if (event.key === "ArrowLeft") nextIndex = (index + categoryLinks.length - 1) % categoryLinks.length;
+      if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (index + 1) % categoryLinks.length;
+      else if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (index + categoryLinks.length - 1) % categoryLinks.length;
       else if (event.key === "Home") nextIndex = 0;
       else if (event.key === "End") nextIndex = categoryLinks.length - 1;
       else return;
@@ -201,6 +203,7 @@ if (document.body.classList.contains("work-page")) {
 }
 
 initializeVideoPreviews(document);
+initializeProjectViews(document);
 
 if (document.body.classList.contains("landing-page")) {
   const wings = document.createElement("div");
@@ -241,6 +244,7 @@ if (document.body.classList.contains("landing-page")) {
       workCue.href = "#work";
       projectEntry.href = "#work";
       disposeMobilePreviews = initializeVideoPreviews(mobileProjects);
+      initializeProjectViews(mobileProjects);
     } else if (!mobileProjectsMedia.matches && mobileProjects) {
       disposeMobilePreviews();
       mobileProjects.remove();
@@ -376,4 +380,28 @@ if (aboutTriggers.length) {
     aboutUrl.searchParams.delete("about");
     window.history.replaceState(null, "", aboutUrl);
   }
+}
+
+function initializeProjectViews(root) {
+  root.querySelectorAll('.archive-project').forEach((project) => {
+    const image = project.querySelector('[data-gallery-image]');
+    const buttons = [...project.querySelectorAll('[data-gallery-src]')];
+    function selectView(button) {
+      buttons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+      image.src = button.dataset.gallerySrc;
+      image.alt = button.dataset.galleryAlt;
+    }
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', () => selectView(button));
+      button.addEventListener('keydown', (event) => {
+        let next;
+        if (event.key === 'ArrowRight') next = (index + 1) % buttons.length;
+        else if (event.key === 'ArrowLeft') next = (index + buttons.length - 1) % buttons.length;
+        else return;
+        event.preventDefault();
+        buttons[next].focus();
+        selectView(buttons[next]);
+      });
+    });
+  });
 }
