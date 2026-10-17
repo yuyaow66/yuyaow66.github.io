@@ -2,7 +2,7 @@
 
 Personal portfolio: https://yuyaow66.github.io/
 
-This static site includes Web design, Book design, Motion, and Illustrations sections, an About drawer, individual project pages, contact details, and the current resume.
+The homepage introduces the portfolio; `work.html` holds the Web design, Book design, Motion, and Illustrations sections. The site also includes an About drawer, individual project pages, contact details, and the current resume.
 
 ## Project websites
 
