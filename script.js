@@ -154,7 +154,7 @@ if (document.body.classList.contains("work-page")) {
         link.tabIndex = selected ? 0 : -1;
         panel.setAttribute("role", "tabpanel");
         panel.setAttribute("aria-labelledby", link.id);
-        panel.tabIndex = 0;
+        panel.removeAttribute("tabindex");
       } else {
         link.removeAttribute("role");
         link.removeAttribute("aria-controls");
