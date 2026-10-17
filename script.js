@@ -336,7 +336,7 @@ if (aboutTriggers.length) {
     aboutClosing = true;
     const animation = aboutPanel.animate([
       { transform: getComputedStyle(aboutPanel).transform },
-      { transform: "translateX(-100%)" }
+      { transform: "translateX(100%)" }
     ], { duration: 160, easing: "ease-in", fill: "forwards" });
     animation.finished.then(() => {
       finish();
