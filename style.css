@@ -62,6 +62,7 @@ body { margin: 0; background: var(--paper); text-align: center; }
   -webkit-filter: url("#printed-ink");
   filter: url("#printed-ink");
 }
+.home-intro .title-tone { position: absolute; top: -.03em; left: 50%; width: .4em; height: .18em; overflow: visible; fill: none; stroke: rgba(49, 57, 76, .9); stroke-width: 5; stroke-linecap: square; stroke-linejoin: miter; transform: translateX(-50%); pointer-events: none; }
 .home-intro .title-letter::before,
 .home-intro .title-letter::after {
   content: attr(data-letter);
