@@ -20,4 +20,4 @@ Run `python3 -m http.server 8767 --bind 127.0.0.1` from this directory, then ope
 
 GitHub Pages publishes the root of the `main` branch. Push changes to `main` to update the website. `.nojekyll` preserves the exported Next.js assets in `projects/abandoned-chairs/_next/`.
 
-The MP4 files ending in `-web.mp4` are optimized for browser playback. Original source videos and superseded resumes stay local and are excluded from Git.
+The lists use lightweight `-preview.mp4` clips with poster images and a manual play option when autoplay is blocked. Full project videos ending in `-web.mp4` remain available from the project pages. Original source videos and superseded resumes stay local and are excluded from Git.

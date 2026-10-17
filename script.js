@@ -45,6 +45,85 @@ if (document.body.matches(".landing-page, .about-page")) {
   updateNavigationBackground();
 }
 
+const previewMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const visiblePreviews = new Set();
+
+function showPreviewPoster(video) {
+  const media = video.closest(".work-media");
+  media.classList.remove("is-playing");
+  media.querySelector(".video-preview-toggle").hidden = false;
+}
+
+function playVideoPreview(video) {
+  video.closest(".work-media").classList.remove("preview-error");
+  if (video.error) video.load();
+  video.muted = true;
+  try {
+    const playback = video.play();
+    if (playback) playback.catch(() => showPreviewPoster(video));
+  } catch {
+    showPreviewPoster(video);
+  }
+}
+
+const previewObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    const video = entry.target;
+    if (entry.isIntersecting && entry.intersectionRatio >= .1) {
+      visiblePreviews.add(video);
+      if (!previewMotion.matches && !document.hidden) playVideoPreview(video);
+    } else {
+      visiblePreviews.delete(video);
+      video.pause();
+    }
+  });
+}, { threshold: .1 });
+
+function initializeVideoPreviews(root) {
+  const videos = [...root.querySelectorAll(".work-media video")];
+  videos.forEach((video) => {
+    const media = video.closest(".work-media");
+    const button = media.querySelector(".video-preview-toggle");
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.setAttribute("webkit-playsinline", "");
+    button.hidden = false;
+    video.addEventListener("playing", () => {
+      media.classList.add("is-playing");
+      button.hidden = true;
+    });
+    video.addEventListener("pause", () => showPreviewPoster(video));
+    video.addEventListener("error", () => {
+      media.classList.add("preview-error");
+      showPreviewPoster(video);
+    });
+    button.addEventListener("click", () => {
+      playVideoPreview(video);
+      media.querySelector(".work-image").focus({ preventScroll: true });
+    });
+    previewObserver.observe(video);
+  });
+  return () => {
+    videos.forEach((video) => {
+      previewObserver.unobserve(video);
+      visiblePreviews.delete(video);
+      video.pause();
+    });
+  };
+}
+
+function updateVisiblePreviews() {
+  visiblePreviews.forEach((video) => {
+    if (document.hidden || previewMotion.matches) video.pause();
+    else playVideoPreview(video);
+  });
+}
+
+document.addEventListener("visibilitychange", updateVisiblePreviews);
+previewMotion.addEventListener("change", updateVisiblePreviews);
+initializeVideoPreviews(document);
+
 if (document.body.classList.contains("landing-page")) {
   const wings = document.createElement("div");
   wings.className = "floating-wings";
@@ -72,6 +151,7 @@ if (document.body.classList.contains("landing-page")) {
   const workCue = document.querySelector(".mobile-work-cue");
   const projectEntry = document.querySelector(".project-entry");
   let mobileProjects;
+  let disposeMobilePreviews;
 
   function updateMobileProjects() {
     if (!mobileProjectsTemplate) return;
@@ -82,13 +162,9 @@ if (document.body.classList.contains("landing-page")) {
       document.querySelector(".landing-main").append(mobileProjects);
       workCue.href = "#work";
       projectEntry.href = "#work";
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        mobileProjects.querySelectorAll("video[autoplay]").forEach((video) => {
-          video.removeAttribute("autoplay");
-          video.pause();
-        });
-      }
+      disposeMobilePreviews = initializeVideoPreviews(mobileProjects);
     } else if (!mobileProjectsMedia.matches && mobileProjects) {
+      disposeMobilePreviews();
       mobileProjects.remove();
       mobileProjects = null;
       workCue.href = "work.html";
@@ -146,9 +222,6 @@ contactMenus.forEach((menu) => {
     if (!menu.contains(event.relatedTarget)) menu.open = false;
   });
 
-  dropdown.addEventListener("click", (event) => {
-    if (event.target.closest("a")) menu.open = false;
-  });
 });
 
 const aboutTriggers = document.querySelectorAll("[data-open-about]");
