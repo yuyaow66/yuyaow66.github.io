@@ -72,17 +72,17 @@ body { margin: 0; background: var(--paper); text-align: center; }
 }
 .home-intro .title-letter::before {
   color: rgba(157, 144, 145, .94);
-  transform: translate(-.8px, .6px);
+  transform: translate(-1.6px, 1.2px);
 }
 .home-intro .title-letter::after {
   color: rgba(84, 99, 126, .64);
   -webkit-text-stroke: 1.15px rgba(49, 57, 76, .96);
-  transform: translate(1.6px, -1px);
+  transform: translate(3.2px, -2px);
   mix-blend-mode: multiply;
 }
 @media (max-width: 600px) {
-  .home-intro .title-letter::before { transform: translate(-.35px, .3px); }
-  .home-intro .title-letter::after { -webkit-text-stroke-width: 1px; transform: translate(.8px, -.5px); }
+  .home-intro .title-letter::before { transform: translate(-.8px, .6px); }
+  .home-intro .title-letter::after { -webkit-text-stroke-width: 1px; transform: translate(1.6px, -1px); }
 }
 @media (forced-colors: active) {
   .home-intro .title-letter { color: CanvasText; filter: none; }
