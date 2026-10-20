@@ -500,7 +500,7 @@ html:has(body.archive-layout) { scroll-padding-top: 24px; }
 .thumbnail-motion { position: absolute; bottom: 0; right: 0; padding: 2px 4px; background: var(--paper); color: var(--ink); font-family: var(--english-font); font-size: 9px; }
 .archive-views-reserved { width: 248px; min-height: 54px; }
 .archive-layout .illustrations-grid { grid-template-columns: minmax(0, 1fr); align-items: start; gap: 112px; }
-.archive-layout .illustration { width: 100%; margin: 0; aspect-ratio: auto; overflow: visible; }
+.archive-layout .illustration { width: min(100%, calc(100svh - 184px)); margin: 0 auto; aspect-ratio: auto; overflow: visible; }
 .archive-layout .illustration img { height: auto; object-fit: contain; }
 .archive-layout .illustration-image { display: block; aspect-ratio: 1; overflow: hidden; }
 .archive-layout .illustration-image img { height: 100%; object-fit: cover; }
