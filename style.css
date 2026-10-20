@@ -484,7 +484,7 @@ html:has(body.archive-layout) { scroll-padding-top: 24px; }
 .archive-layout .archive-project .work-image { display: block; aspect-ratio: var(--archive-ratio); overflow: hidden; }
 .archive-project .work-image > img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .archive-project .work-media .work-image { aspect-ratio: 16 / 9; overflow: hidden; }
-#in-praise-of-shadows .work-media .work-image, #abandoned-chairs .work-media .work-image { aspect-ratio: var(--archive-ratio); }
+#zine .work-media .work-image, #in-praise-of-shadows .work-media .work-image, #abandoned-chairs .work-media .work-image { aspect-ratio: var(--archive-ratio); }
 .archive-project .work-media .video-poster { width: 100%; height: 100%; max-height: none; object-fit: contain; }
 .archive-project .work-video { object-fit: contain; }
 .archive-project .work-video[hidden] { display: none; }
