@@ -499,9 +499,8 @@ html:has(body.archive-layout) { scroll-padding-top: 24px; }
 .archive-views img { display: block; width: 100%; height: 100%; min-width: 0; min-height: 0; object-fit: contain; }
 .thumbnail-motion { position: absolute; bottom: 0; right: 0; padding: 2px 4px; background: var(--paper); color: var(--ink); font-family: var(--english-font); font-size: 9px; }
 .archive-views-reserved { width: 248px; min-height: 54px; }
-.archive-layout .illustrations-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 88px 36px; }
-.archive-layout .illustration { aspect-ratio: auto; overflow: visible; }
-.archive-layout .illustration:nth-child(even) { margin-top: 108px; }
+.archive-layout .illustrations-grid { grid-template-columns: minmax(0, 1fr); align-items: start; gap: 112px; }
+.archive-layout .illustration { width: 100%; margin: 0; aspect-ratio: auto; overflow: visible; }
 .archive-layout .illustration img { height: auto; object-fit: contain; }
 .archive-layout.landing-page .landing-hero { margin: 0; }
 .archive-layout .homepage-projects { --archive-category-gap: 104px; max-width: 1120px; margin: 0 272px 0 64px; padding: 48px 0 120px; }
@@ -522,6 +521,7 @@ html:has(body.archive-layout) { scroll-padding-top: 24px; }
   .archive-views { justify-content: flex-start; }
   .archive-views-reserved { display: none; }
   .archive-layout .archive-project + .archive-project { margin-top: 88px; }
+  .archive-layout .illustrations-grid { gap: 88px; }
 }
 @media (max-width: 760px) {
   .archive-layout .identity-header { position: relative; inset: auto; width: 100%; padding: 20px 16px 16px; }
@@ -548,8 +548,7 @@ html:has(body.archive-layout) { scroll-padding-top: 24px; }
   .archive-views { justify-content: flex-start; }
   .archive-views > button { width: 64px; height: 46px; }
   .archive-views-reserved { display: none; }
-  .archive-layout .illustrations-grid { gap: 40px 16px; }
-  .archive-layout .illustration:nth-child(even) { margin-top: 56px; }
+  .archive-layout .illustrations-grid { gap: 64px; }
 }
 @media (max-width: 360px) {
   .identity-contact { grid-template-columns: .8fr 1.2fr; gap: 0 8px; }
