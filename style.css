@@ -502,6 +502,9 @@ html:has(body.archive-layout) { scroll-padding-top: 24px; }
 .archive-layout .illustrations-grid { grid-template-columns: minmax(0, 1fr); align-items: start; gap: 112px; }
 .archive-layout .illustration { width: 100%; margin: 0; aspect-ratio: auto; overflow: visible; }
 .archive-layout .illustration img { height: auto; object-fit: contain; }
+.archive-layout .illustration-image { display: block; aspect-ratio: 1; overflow: hidden; }
+.archive-layout .illustration-image img { height: 100%; object-fit: cover; }
+.archive-layout .illustration-title { margin: 20px 0 0; font-size: 17px; line-height: 1.5; font-weight: 400; letter-spacing: 0; }
 .archive-layout.landing-page .landing-hero { margin: 0; }
 .archive-layout .homepage-projects { --archive-category-gap: 104px; max-width: 1120px; margin: 0 272px 0 64px; padding: 48px 0 120px; }
 .archive-layout .homepage-projects .work-section, .archive-layout .homepage-projects .illustrations-section { width: 100%; max-width: none; padding: 0; }
@@ -549,6 +552,7 @@ html:has(body.archive-layout) { scroll-padding-top: 24px; }
   .archive-views > button { width: 64px; height: 46px; }
   .archive-views-reserved { display: none; }
   .archive-layout .illustrations-grid { gap: 64px; }
+  .archive-layout .illustration-title { margin-top: 16px; font-size: 15px; }
 }
 @media (max-width: 360px) {
   .identity-contact { grid-template-columns: .8fr 1.2fr; gap: 0 8px; }
