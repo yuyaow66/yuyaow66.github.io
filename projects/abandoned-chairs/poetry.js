@@ -9,6 +9,9 @@
   const folio = document.querySelector('.chairs-poetry-folio');
   const status = document.querySelector('.chairs-poetry-status');
   const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+  const aboutTrigger = document.getElementById('chairs-poetry-about-trigger');
+  const aboutPanel = document.getElementById('chairs-poetry-about');
+  const aboutClose = document.getElementById('chairs-poetry-about-close');
   const chairDefinitions = [{"file": "poetry-chair-red.png", "bounds": [273, 50, 980, 1251], "shape": [[-0.0637, -0.5], [-0.1461, -0.4833], [-0.1936, -0.45], [-0.2669, -0.2669], [-0.2935, 0.0495], [-0.2835, 0.4825], [0.2127, 0.4825], [0.2835, 0.266], [0.2877, 0.0995], [0.1928, -0.1003], [0.1636, -0.3002], [0.122, -0.4167], [0.082, -0.4667], [-0.0246, -0.5]], "source": "chair47.jpg"}, {"file": "poetry-chair.png", "bounds": [114, 7, 1077, 1397], "shape": [[0.0083, -0.5], [-0.0428, -0.4712], [-0.3284, -0.4568], [-0.2306, 0.0612], [-0.3464, 0.0755], [-0.2083, 0.277], [-0.0608, 0.4209], [0.0558, 0.4993], [0.0615, 0.4993], [0.091, 0.4784], [0.0694, 0.4353], [0.0658, 0.3201], [0.3378, 0.3058], [0.3457, 0.2914], [0.327, 0.2626], [0.345, 0.0468], [0.0766, -0.0827], [0.0147, -0.5]], "source": "chair14.jpg"}, {"file": "poetry-chair-gray.png", "bounds": [47, 130, 1085, 1349], "shape": [[-0.1419, -0.4836], [-0.3134, -0.418], [-0.4184, -0.3031], [-0.4036, -0.0898], [-0.4249, 0.0906], [-0.3847, 0.2711], [-0.3503, 0.2875], [-0.338, 0.4844], [0.3396, 0.4844], [0.3511, 0.2875], [0.3823, 0.2711], [0.4233, 0.0906], [0.4044, -0.139], [0.4217, -0.3031], [0.3421, -0.4016], [0.1608, -0.4836]], "source": "chair5.jpg"}, {"file": "poetry-chair-black.png", "bounds": [12, 20, 1116, 1400], "shape": [[-0.3341, -0.5], [-0.3652, -0.471], [-0.3304, -0.2391], [-0.2551, -0.2246], [-0.2529, -0.2101], [-0.3181, -0.1812], [-0.3051, -0.0942], [-0.3826, -0.0652], [-0.3942, -0.0217], [-0.2572, 0.1522], [-0.1333, 0.2391], [-0.2174, 0.2971], [-0.2297, 0.3406], [0.013, 0.3551], [0.0435, 0.3841], [0.0529, 0.4855], [0.0841, 0.4855], [0.0819, 0.4275], [0.1522, 0.413], [0.208, 0.3696], [0.3275, 0.2536], [0.392, 0.1667], [0.3971, 0.1232], [0.3783, 0.0797], [0.2942, 0.0072], [0.363, -0.0942], [0.1754, -0.1812], [0.0812, -0.1957], [0.063, -0.2246], [-0.0442, -0.2391], [0.0428, -0.2681], [0.079, -0.2971], [0.0841, -0.3986], [0.0601, -0.4565], [0.0348, -0.471], [-0.321, -0.5]], "source": "chair13.jpg"}, {"file": "poetry-chair-burgundy.png", "bounds": [25, 29, 1130, 1343], "shape": [[-0.059, -0.5], [-0.1001, -0.4391], [-0.1176, -0.1956], [-0.2584, -0.1499], [-0.4197, -0.0282], [-0.3725, 0.0175], [-0.3527, 0.0632], [-0.3246, 0.4132], [-0.3086, 0.4285], [0.2325, 0.4437], [0.2325, 0.4893], [0.2827, 0.4893], [0.3215, 0.2306], [0.3421, 0.2002], [0.3474, 0.0936], [0.3908, 0.0479], [0.4197, -0.1347], [0.3345, -0.1499], [0.3253, -0.1651], [0.3413, -0.4848], [-0.0498, -0.5]], "source": "chair40.jpg"}];
   const chairPhotos = chairDefinitions.map(definition => {
     const image = new Image();
@@ -103,7 +106,7 @@
   };
   const draw = stamp => {
     frame = 0;
-    if (!effect || paused || document.hidden || motionPreference.matches || !active.inView) return;
+    if (!effect || paused || aboutPanel?.open || document.hidden || motionPreference.matches || !active.inView) return;
     const dt = lastTime ? Math.min((stamp - lastTime) / 1000, 0.04) : 1 / 60;
     lastTime = stamp;
     elapsed += dt;
@@ -113,7 +116,7 @@
     frame = requestAnimationFrame(draw);
   };
   const start = () => {
-    if (!frame && effect && !paused && !document.hidden && !motionPreference.matches && active.inView) frame = requestAnimationFrame(draw);
+    if (!frame && effect && !paused && !aboutPanel?.open && !document.hidden && !motionPreference.matches && active.inView) frame = requestAnimationFrame(draw);
   };
   const prepare = () => {
     dispose();
@@ -343,6 +346,49 @@
     if (paused) { stop(); active.stage.dataset.running = 'false'; }
     else start();
   });
+  if (aboutTrigger && aboutPanel && aboutClose) {
+    let aboutCloseTimer = 0;
+    const closeAbout = () => {
+      if (!aboutPanel.open || aboutPanel.classList.contains('is-closing')) return;
+      if (motionPreference.matches) {
+        aboutPanel.close();
+        return;
+      }
+      aboutPanel.classList.add('is-closing');
+      aboutCloseTimer = setTimeout(() => { if (aboutPanel.open) aboutPanel.close(); }, 300);
+    };
+    aboutTrigger.addEventListener('click', () => {
+      if (aboutPanel.open) return;
+      const cursor = document.querySelector('.chairs-cursor');
+      if (cursor) aboutPanel.append(cursor);
+      aboutPanel.showModal();
+      aboutPanel.scrollTop = 0;
+      aboutTrigger.setAttribute('aria-expanded', 'true');
+      stop();
+    });
+    aboutClose.addEventListener('click', closeAbout);
+    aboutPanel.addEventListener('cancel', event => {
+      event.preventDefault();
+      closeAbout();
+    });
+    aboutPanel.addEventListener('click', event => {
+      if (event.target !== aboutPanel) return;
+      const bounds = aboutPanel.getBoundingClientRect();
+      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) closeAbout();
+    });
+    aboutPanel.addEventListener('animationend', event => {
+      if (event.target === aboutPanel && event.animationName === 'chairs-poetry-about-out') aboutPanel.close();
+    });
+    aboutPanel.addEventListener('close', () => {
+      clearTimeout(aboutCloseTimer);
+      aboutPanel.classList.remove('is-closing');
+      aboutTrigger.setAttribute('aria-expanded', 'false');
+      const cursor = aboutPanel.querySelector('.chairs-cursor');
+      if (cursor) document.body.append(cursor);
+      aboutTrigger.focus({ preventScroll: true });
+      start();
+    });
+  }
   document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);

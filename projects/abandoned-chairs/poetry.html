@@ -8,15 +8,15 @@
   <link rel="icon" href="favicon.ico">
   <link rel="stylesheet" href="cursor.css?v=20261020-sections-1">
   <link id="chairs-about-styles" rel="stylesheet" href="about.css?v=20261020-type-1">
-  <link rel="stylesheet" href="poetry.css?v=20261020-poetry-editorial-5">
+  <link rel="stylesheet" href="poetry.css?v=20261021-poetry-info-1">
   <script src="poetry-effects.js?v=20261020-poetry-editorial-5" defer></script>
-  <script src="poetry.js?v=20261020-poetry-editorial-5" defer></script>
+  <script src="poetry.js?v=20261021-poetry-info-1" defer></script>
   <script src="cursor.js?v=20261020-type-1" defer></script>
 </head>
 <body class="chairs-about-page chairs-poetry-page">
   <header class="chairs-about-header">
     <a class="chairs-about-home chairs-brand-home" href="./">Abandoned Chairs</a>
-    <a class="chairs-about-home" href="about.html" target="_blank" rel="noopener" aria-label="About (opens in a new tab)">About</a>
+    <button class="chairs-about-home" id="chairs-poetry-about-trigger" type="button" aria-haspopup="dialog" aria-controls="chairs-poetry-about" aria-expanded="false">About this page</button>
   </header>
   <main class="chairs-poetry-content">
     <h1 class="chairs-poetry-sr-only">Poetry</h1>
@@ -165,5 +165,11 @@ not here
       </div>
     </div>
   </main>
+  <dialog id="chairs-poetry-about" aria-labelledby="chairs-poetry-about-title">
+    <button class="chairs-poetry-about-close" id="chairs-poetry-about-close" type="button" aria-label="Close page information" autofocus>(x)</button>
+    <h2 id="chairs-poetry-about-title">Poetry</h2>
+    <p>These four poems come from the transparent pages near the end of The Abandoned Chairs. On this page, their words can move and change as you interact with them.</p>
+    <p>The full poem appears first. Choose In motion to explore the interactions, such as guiding a chair through woven words or loosening letters into rain. Switch back to Read the poem whenever you want to return to the text.</p>
+  </dialog>
 </body>
 </html>

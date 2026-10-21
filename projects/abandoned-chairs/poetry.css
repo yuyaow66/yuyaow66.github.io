@@ -84,4 +84,19 @@ html { background: #19263d; color-scheme: dark; }
   .chairs-poetry-choice { transition: none; }
   .chairs-poetry-canvas { display: none; }
 }
-
+#chairs-poetry-about { position: fixed; inset: 0 0 0 auto; box-sizing: border-box; width: min(480px, 100vw); max-width: none; height: 100vh; height: 100dvh; max-height: none; margin: 0; padding: 96px clamp(24px, 5vw, 40px) 40px; overflow: auto; overscroll-behavior: contain; border: 0; border-left: 1px solid rgb(250 247 255 / 14%); color: #e0deea; background: #263851; font: 400 17px/1.65 ChairsSupporting, sans-serif; scrollbar-color: #697084 #263851; }
+#chairs-poetry-about::backdrop { background: rgb(12 20 34 / 38%); }
+#chairs-poetry-about[open] { animation: chairs-poetry-about-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+#chairs-poetry-about[open]::backdrop { animation: chairs-poetry-about-fade-in 260ms ease-out both; }
+#chairs-poetry-about.is-closing { animation: chairs-poetry-about-out 220ms cubic-bezier(0.4, 0, 1, 1) both; }
+#chairs-poetry-about.is-closing::backdrop { animation: chairs-poetry-about-fade-out 220ms ease-in both; }
+#chairs-poetry-about-title { margin: 0 0 28px; color: #faf7ff; font: 400 26px/1.3 ChairsSupporting, sans-serif; }
+#chairs-poetry-about p { margin: 0 0 20px; }
+.chairs-poetry-about-close { position: fixed; top: 20px; right: 20px; min-width: 44px; min-height: 44px; padding: 0; border: 0; border-radius: 0; color: #faf7ff; background: transparent; font: 400 16px/1 ChairsSupporting, sans-serif; }
+.chairs-poetry-about-close:hover { color: #ded2ff; }
+.chairs-poetry-about-close:focus-visible { outline: 2px solid #ded2ff; outline-offset: 2px; }
+@keyframes chairs-poetry-about-in { from { right: max(-480px, -100vw); } to { right: 0; } }
+@keyframes chairs-poetry-about-out { from { right: 0; } to { right: max(-480px, -100vw); } }
+@keyframes chairs-poetry-about-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes chairs-poetry-about-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { #chairs-poetry-about[open], #chairs-poetry-about[open]::backdrop { animation: none; } }
