@@ -274,7 +274,7 @@
     </style>
     <link rel="stylesheet" href="cursor.css?v=20261020-sections-1">
     <script src="cursor.js?v=20261020-collection-type-2" defer></script>
-  <link rel="stylesheet" href="page-info.css?v=20261021-compact-1">
+  <link rel="stylesheet" href="page-info.css?v=20261021-corner-5">
 </head>
 <body>
 <dialog class="chairs-collection-dialog" id="info-box" aria-labelledby="chairs-story-title">
@@ -291,12 +291,18 @@
 </dialog>
 
 <dialog class="chairs-collection-dialog" id="chairs-collection-about" aria-labelledby="chairs-collection-about-title">
-    <button class="chairs-dialog-close" type="button" aria-label="Close page information" autofocus>(x)</button>
-    <h2 id="chairs-collection-about-title">Left Behind</h2>
-    <p>Every chair has a life before it is left behind.</p>
-    <p>These stories imagine that life, and what follows: the rooms a chair once belonged to, the people it held, and its wandering days on the street. Told from each chair’s point of view, they follow memories of being needed, the uncertainty of abandonment, and the encounters that become part of a new life.</p>
-    <p class="chairs-collection-about-guide">Drag to explore the collection.<br>Select a chair to open its photograph and story.</p>
-</dialog>
+    <header class="chairs-page-info-heading">
+      <h2 id="chairs-collection-about-title">Left Behind</h2>
+      <button class="chairs-dialog-close" type="button" aria-label="Close page information" autofocus>(x)</button>
+    </header>
+    <div class="chairs-page-info-concept">
+      <p class="chairs-page-info-lead">Every chair has a life before it is left behind.</p>
+      <p>These stories imagine that life, and what follows: the rooms a chair once belonged to, the people it held, and its wandering days on the street. Told from each chair’s point of view, they follow memories of being needed, the uncertainty of abandonment, and the encounters that become part of a new life.</p>
+    </div>
+    <div class="chairs-page-info-guide">
+      <p>Drag to explore the collection.<br>Select a chair to open its photograph and story.</p>
+    </div>
+  </dialog>
 
 <script>
     let scene, camera, renderer, controls;
