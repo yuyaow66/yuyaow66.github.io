@@ -2,34 +2,66 @@
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>abandoned chairs</title>
 	<meta charset="utf-8" />
-	<script src="https://openprocessing.org/openprocessing_sketch.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/addons/p5.sound.min.js"></script>
-	<script src="mySketch.js"></script>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="vendor/p5-1.9.2.min.js"></script>
+	<script src="mySketch.js?v=20261020-original-interaction-1"></script>
+	<link rel="stylesheet" type="text/css" href="style.css?v=20261020-maps-1">
+    <link rel="stylesheet" href="location.css?v=20261020-text-depth-2">
+    <script src="maps-config.js?v=20261020-maps-2" defer></script>
+    <script src="location.js?v=20261020-maps-9" defer></script>
+    <script src="location-about.js?v=20261020-page-info-1" defer></script>
    
-    <link rel="stylesheet" href="cursor.css">
-    <script src="cursor.js" defer></script>
+    <link rel="stylesheet" href="cursor.css?v=20261020-sections-1">
+    <script src="cursor.js?v=20261020-maps-3" defer></script>
 </head>
 
-  <body>
+  <body class="chairs-location-page">
       
     <div id="field"></div>
    
 
  
-  <div id="nav-buttons">
-    <button onclick="goHome()">Home</button>
-    <button onclick="goPrevious()">Previous</button>
-  </div>
+  <nav id="nav-buttons" aria-label="Project navigation">
+    <button class="chairs-brand-home" onclick="goHome()">Abandoned Chairs</button>
+    <button id="chairs-location-about-trigger" type="button">About this page</button>
+  </nav>
 
  
   <div id="center-box">
-    <input type="text" placeholder="Stooping location..." />
+    <form class="chairs-location-form" id="chairs-location-form" aria-label="Find a stooping location">
+      <label class="chairs-location-label" for="chairs-location-input">Stooping location</label>
+      <input id="chairs-location-input" name="location" type="search" placeholder="Stooping location..." autocomplete="off" enterkeyhint="go" required>
+      <button id="chairs-location-submit" type="submit">Enter <span aria-hidden="true">↵</span></button>
+    </form>
+    <p class="chairs-location-status" id="chairs-location-status" role="status" aria-live="polite"></p>
   </div>
+  <section class="chairs-location-results" id="chairs-location-results" aria-labelledby="chairs-location-address" data-view="map" hidden>
+    <header class="chairs-location-result-header">
+      <h1 id="chairs-location-address">Stooping location</h1>
+      <button class="chairs-location-close" id="chairs-location-close" type="button" aria-label="Close map">(x)</button>
+    </header>
+    <div class="chairs-location-tabs" role="tablist" aria-label="Location view">
+      <button type="button" role="tab" data-location-view="map" aria-selected="true" aria-controls="chairs-location-map-panel">Map</button>
+      <button type="button" role="tab" data-location-view="streetview" aria-selected="false" aria-controls="chairs-location-streetview-panel">Street View</button>
+    </div>
+    <div class="chairs-location-views">
+      <section class="chairs-location-pane chairs-location-pane-map" id="chairs-location-map-panel" role="tabpanel" aria-label="Map with stooping locations">
+        <div id="chairs-location-map"></div>
+      </section>
+      <section class="chairs-location-pane chairs-location-pane-streetview" id="chairs-location-streetview-panel" role="tabpanel" aria-label="Street View near the selected location">
+        <div id="chairs-location-streetview"></div>
+        <p class="chairs-location-street-status" id="chairs-location-street-status" role="status">Looking for nearby Street View...</p>
+      </section>
+    </div>
+  </section>
     
+  <dialog id="chairs-location-about" aria-labelledby="chairs-location-about-title">
+    <button class="chairs-location-about-close" id="chairs-location-about-close" type="button" aria-label="Close page information" autofocus>(x)</button>
+    <h2 id="chairs-location-about-title">A Place to Land</h2>
+    <p>A chair left on the sidewalk can make you wonder where it came from, or who will take it home. You can mark where you found one here: enter an address to add a pin to the map and look around nearby in Street View. Move your cursor across the words in the background to see their colors change.</p>
+  </dialog>
   </body>
 
 </html>

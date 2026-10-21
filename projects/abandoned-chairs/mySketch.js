@@ -16,6 +16,7 @@ let allGrassProfile = [];
 let gCOLOR;
 let fCOLORS;
 let touchMode = false;
+let field;
 
 function setup() {
   gCOLOR = color(255, 255, 255);
@@ -38,37 +39,93 @@ function setup() {
   };
   
   createCanvas(windowWidth, windowHeight);
- 
-  frameRate(60); 
+  clear();
+  frameRate(60);
 
-  let field = select('field');
+  field = select('#field');
   plantGrass();
+  document.fonts.ready.then(() => {
+    rebuildGrass();
+    wakeSketch();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) noLoop();
+    else wakeSketch();
+  });
   
   describe('Background of pattern created by repeating the phrase "touch grass". Hovering over the letters makes them morph into flowers.');
 }
 
 function draw() {
-    clear()
+  if (document.hidden || document.body.classList.contains('chairs-map-open') || document.body.classList.contains('chairs-page-info-open')) {
+    noLoop();
+    return;
+  }
   if (!touchMode && touches.length > 0) {
     touchMode = true;
   }
+  let changing = false;
   for (let grassProfile of allGrassProfile) {
-    grassProfile.showGrowth();
+    if (grassProfile.showGrowth()) changing = true;
   }
+  if (!changing) noLoop();
 }
 
 function plantGrass() {
   let grass;
-  let cycleCount = 0;
-  
   while (!grass || grass.elt.getBoundingClientRect().top < window.innerHeight) {
     for (let curGrassType of TGSTRING) {
-      grass = createSpan(curGrassType+'&#8203');
+      grass = createSpan(curGrassType + '&#8203');
       grass.parent(field);
       allGrassProfile.push(new GrassProfile(grass, curGrassType));
     }
   }
+  updateGrassPos();
+}
 
+function rebuildGrass() {
+  field.html('');
+  allGrassProfile = [];
+  plantGrass();
+}
+
+function wakeSketch() {
+  if (!document.hidden && !document.body.classList.contains('chairs-map-open') && !document.body.classList.contains('chairs-page-info-open')) loop();
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  clear();
+  rebuildGrass();
+  wakeSketch();
+}
+
+function mouseMoved() {
+  wakeSketch();
+}
+
+function mouseDragged() {
+  wakeSketch();
+}
+
+function mousePressed() {
+  wakeSketch();
+}
+
+function mouseReleased() {
+  wakeSketch();
+}
+
+function touchStarted() {
+  wakeSketch();
+}
+
+function touchMoved() {
+  wakeSketch();
+}
+
+function touchEnded() {
+  wakeSketch();
 }
 
 class GrassProfile {
@@ -76,15 +133,21 @@ class GrassProfile {
     this.grass = grass;
     this.grassType = grassType;
     this.growth = 1;
-    this.position = this.getPosition();
+    this.renderedGrowth = null;
+    this.position = { x: 0, y: 0 };
   }
   
   showGrowth() {
-    if(this.grassType == ' ') return;
+    if(this.grassType == ' ') return false;
+    const previousGrowth = this.growth;
     if(touchMode) this.checkGrowthTM();
     else this.checkGrowth();
-    this.grass.style('font-weight', this.growth);
-    this.grass.style('color', this.getColor());
+    if (this.renderedGrowth !== this.growth) {
+      this.grass.style('font-weight', this.growth);
+      this.grass.style('color', this.getColor());
+      this.renderedGrowth = this.growth;
+    }
+    return this.growth !== previousGrowth;
   }
   
   checkGrowth() {
@@ -112,9 +175,10 @@ class GrassProfile {
   }
   
   getPosition() {
+    const rect = this.grass.elt.getBoundingClientRect();
     return {
-      x: (this.grass.elt.getBoundingClientRect().left + this.grass.elt.getBoundingClientRect().right)/2,
-      y: (this.grass.elt.getBoundingClientRect().top + this.grass.elt.getBoundingClientRect().bottom)/2
+      x: (rect.left + rect.right) / 2,
+      y: (rect.top + rect.bottom) / 2
     };
   }
   
@@ -133,5 +197,3 @@ function updateGrassPos() {
       grassProfile.position = grassProfile.getPosition();
     }
 }
-
-setInterval(updateGrassPos, 500);

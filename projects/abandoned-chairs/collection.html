@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8"/>
     <title>abandoned chairs</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="vendor/three-r128.min.js"></script>
+    <script src="vendor/OrbitControls-r128.js"></script>
     <style>
         body {
             margin: 0;
@@ -31,8 +32,12 @@
         #next-button {
             position: absolute;
             top: 20px;
-            right: 20px;
+            right: 32px;
             z-index: 999;
+        }
+
+        #next-button .chairs-brand-home {
+            font: 400 16px/1.4 ChairsSupporting, sans-serif;
         }
 
         button {
@@ -50,54 +55,216 @@
             background-color: rgba(255, 255, 255, 1);
         }
 
-        #background-text {
-            position: fixed;
-            inset: 0;
-            z-index: 2;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            grid-auto-rows: 1fr;
+        .chairs-collection-dialog {
+            box-sizing: border-box;
+            width: min(1100px, calc(100vw - 64px));
+            max-width: none;
+            max-height: calc(100svh - 80px);
+            margin: auto;
+            padding: 0;
+            overflow: auto;
+            border: 0;
+            color: #faf7ff;
+            background: transparent;
+            scrollbar-color: #697084 transparent;
+        }
+
+        .chairs-collection-dialog::backdrop {
+            background: rgb(12 20 34 / 88%);
+        }
+
+        .chairs-story-header {
+            display: flex;
             align-items: center;
-            justify-items: center;
-            font-family: 'Chairs';
-            font-size: 1.8vw;
-            color: white;
-            text-transform: none;
-            text-align: center;
-            line-height: 1.4;
-            padding: 20px;
+            justify-content: space-between;
+            gap: 24px;
+            min-height: 48px;
+            padding: 0;
+            background: transparent;
         }
 
-        .text-tile {
-            opacity: 1;
-            cursor: pointer;
-            transition: transform 1.2s ease-out, opacity 1.2s ease-out;
+        #chairs-story-title {
+            margin: 0;
+            color: #ded2ff;
+            font: 400 14px/1.4 ChairsSupporting, sans-serif;
         }
 
-        .snowflake {
-            transform: translate(
-                    calc(var(--dx, 0px)),
-                    calc(var(--dy, 0px))
-            ) scale(0);
-            opacity: 0;
+        .chairs-collection-dialog .chairs-dialog-close {
+            position: fixed;
+            z-index: 2;
+            top: 20px;
+            right: 20px;
+            min-width: 44px;
+            min-height: 44px;
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            color: #faf7ff;
+            background: transparent;
+            font: 300 16px/1 ChairsInterface, sans-serif;
         }
 
-        .hidden-layer {
-            display: none !important;
+        .chairs-collection-dialog .chairs-dialog-close:hover {
+            color: #ded2ff;
+            background: transparent;
         }
 
-        /* Info box */
-        #info-box {
-            position: absolute;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 20px;
-            z-index: 1000;
-            display: none;
+        .chairs-collection-dialog .chairs-dialog-close:focus-visible {
+            outline: 2px solid #ded2ff;
+            outline-offset: 2px;
         }
 
-        #info-box img {
-            width: 380px;
+        .chairs-story-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+            align-items: start;
+            gap: 56px;
+            padding: 0 0 8px;
+        }
+
+        .chairs-story-photo {
+            position: sticky;
+            top: 0;
+            margin: 0;
+        }
+
+        #chairs-story-image {
+            display: block;
+            width: 100%;
+            max-height: calc(100svh - 180px);
+            object-fit: contain;
+            object-position: top center;
+        }
+
+        .chairs-story-copy {
+            max-width: 43ch;
+            color: #e0deea;
+            font: 400 17px/1.65 ChairsSupporting, sans-serif;
+        }
+
+        .chairs-story-copy p {
+            margin: 0 0 20px;
+        }
+
+        .chairs-story-copy p:first-child {
+            color: #faf7ff;
+        }
+
+        .chairs-story-copy p:last-child {
+            margin-bottom: 0;
+        }
+
+        #chairs-collection-about {
+            position: fixed;
+            inset: 0 0 0 auto;
+            width: min(480px, 100vw);
+            height: 100vh;
+            height: 100dvh;
+            max-height: none;
+            margin: 0;
+            padding: 96px clamp(24px, 5vw, 40px) 40px;
+            overflow: auto;
+            overscroll-behavior: contain;
+            border-left: 1px solid rgb(250 247 255 / 14%);
+            color: #e0deea;
+            background: #263851;
+            scrollbar-color: #697084 #263851;
+            font: 400 17px/1.65 ChairsSupporting, sans-serif;
+        }
+
+        #chairs-collection-about::backdrop {
+            background: rgb(12 20 34 / 38%);
+        }
+
+        #chairs-collection-about[open] {
+            animation: chairs-about-drawer-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        #chairs-collection-about[open]::backdrop {
+            animation: chairs-about-backdrop-in 260ms ease-out both;
+        }
+
+        #chairs-collection-about.chairs-about-closing {
+            animation: chairs-about-drawer-out 220ms cubic-bezier(0.4, 0, 1, 1) both;
+        }
+
+        #chairs-collection-about.chairs-about-closing::backdrop {
+            animation: chairs-about-backdrop-out 220ms ease-in both;
+        }
+
+        @keyframes chairs-about-drawer-in {
+            from { right: max(-480px, -100vw); }
+            to { right: 0; }
+        }
+
+        @keyframes chairs-about-drawer-out {
+            from { right: 0; }
+            to { right: max(-480px, -100vw); }
+        }
+
+        @keyframes chairs-about-backdrop-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes chairs-about-backdrop-out {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #chairs-collection-about[open],
+            #chairs-collection-about[open]::backdrop {
+                animation: none;
+            }
+        }
+
+        #chairs-collection-about-title {
+            margin: 0 0 28px;
+            color: #faf7ff;
+            font: 400 26px/1.3 ChairsSupporting, sans-serif;
+        }
+
+        #chairs-collection-about p {
+            margin: 0 0 20px;
+        }
+
+        #chairs-collection-about .chairs-collection-about-guide {
+            margin: 32px 0 0;
+            color: #ded2ff;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 720px) {
+            #info-box {
+                width: calc(100vw - 48px);
+                max-height: calc(100svh - 112px);
+            }
+
+            .chairs-story-header {
+                min-height: 44px;
+                padding: 0;
+            }
+
+            .chairs-story-layout {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 24px;
+                padding: 0 0 24px;
+            }
+
+            .chairs-story-photo {
+                position: static;
+            }
+
+            #chairs-story-image {
+                max-height: 42svh;
+            }
+
+            .chairs-story-copy {
+                max-width: none;
+                font-size: 16px;
+            }
         }
 
         @font-face {
@@ -105,12 +272,30 @@
             src: url("Barrio-Regular.ttf");
         }
     </style>
-    <link rel="stylesheet" href="cursor.css">
-    <script src="cursor.js" defer></script>
+    <link rel="stylesheet" href="cursor.css?v=20261020-sections-1">
+    <script src="cursor.js?v=20261020-collection-type-2" defer></script>
 </head>
 <body>
-<div id="background-text"></div>
-<div id="info-box"></div>
+<dialog class="chairs-collection-dialog" id="info-box" aria-labelledby="chairs-story-title">
+    <header class="chairs-story-header">
+        <h2 id="chairs-story-title">Chair</h2>
+        <button class="chairs-dialog-close" type="button" aria-label="Close story" autofocus>(x)</button>
+    </header>
+    <div class="chairs-story-layout">
+        <figure class="chairs-story-photo">
+            <img id="chairs-story-image" alt="Photograph from the abandoned chair collection" decoding="async">
+        </figure>
+        <div class="chairs-story-copy" id="chairs-story-copy"></div>
+    </div>
+</dialog>
+
+<dialog class="chairs-collection-dialog" id="chairs-collection-about" aria-labelledby="chairs-collection-about-title">
+    <button class="chairs-dialog-close" type="button" aria-label="Close page information" autofocus>(x)</button>
+    <h2 id="chairs-collection-about-title">Left Behind</h2>
+    <p>Every chair has a life before it is left behind.</p>
+    <p>These stories imagine that life, and what follows: the rooms a chair once belonged to, the people it held, and its wandering days on the street. Told from each chair’s point of view, they follow memories of being needed, the uncertainty of abandonment, and the encounters that become part of a new life.</p>
+    <p class="chairs-collection-about-guide">Drag to explore the collection.<br>Select a chair to open its photograph and story.</p>
+</dialog>
 
 <script>
     let scene, camera, renderer, controls;
@@ -118,6 +303,11 @@
     let textures = [];
     let raycaster, mouse;
     let textureLoader;
+    let materials = [];
+    let renderFrame = 0;
+    let pointerPending = false;
+    let hovered = false;
+    let resumeTextureLoading = () => {};
 	const contents = [
 		'Yesterday my chair broke a leg. I cannot understand what I was thinking about to be that heavy. Then we spend whole night crying: The chair had a leg ache, I had a thought ache. He sat down on the floor, rested his back on a backrest, thinking that I will not throw hhim away, or will tear him apart and burn him... But I have never thrown anything away - I keep everything in me. I have never burnt anything down, except myself. Finally I made up my mind: You should sit in the corner, I will cover you with my clothes not to feel cold, sit and wait, one day I will need you for sure: When I break each leg of my each thought replace them with your survived ones.',
 		'I once dat quietly in the corner of a room, keeping my owner company through countless days and nights. People read books on me, wrote letters, or simply dozed and drifted into thought while resting in my embrace. Back then, I was steady and useful, carrying with me the meaning o eing needed. But I do not know when it began - slowly, I was forgotten. My paint chipped, my arms wore down, my cushion sagged. I oveheard them say "old," "ugly," and so I was pushed outside. The moment the iron door shut, I became a silent burden, left to the wind, the dust, and the passing stares of strangers.',
@@ -125,6 +315,59 @@
         'Morning comes with the rumble of the subway above me. The steel tracks vibrate like a heatbeat, a reminder of a city always in motion. I lean against a damp brick wall, my wooden legs splayed awkwardly after last night rain. Once, I stood proudly in a Brooklyn café, brushed daily with warm roasted beans. People lingered on me for hours - typing, sketching, whispering secrets over lattes. Then came renovation. New stools, new tables, new colors. I was rolled out with the trash, my wheels squeaking a small protest that no one heard.',
         'Here under the bridge, I serve othe rpurposes, A saxophonist rested on me while his case lay open for coins. A mother tied her child shoelave using my seat as makeshift bench. A night wanderer sat and smoked, staring at the East Rivers shifting lights. They do not know my past, but in their small gestures, I find a faint echo of belonging. I smell rust, rainwater, and the fait sweetness of bakery bread carried by the wind. I tell myself i an no useless - only transformed. The city, indifferent and alive, keeps me in motion even when I cannot move.',
 	];
+
+    const storyDialog = document.getElementById('info-box');
+    const aboutDialog = document.getElementById('chairs-collection-about');
+    let aboutCloseTimer = 0;
+    [storyDialog, aboutDialog].forEach(dialog => {
+        const closeDialog = () => dialog === aboutDialog ? closeCollectionAbout() : dialog.close();
+        dialog.querySelector('.chairs-dialog-close').addEventListener('click', closeDialog);
+        dialog.addEventListener('click', event => {
+            if (event.target !== dialog) return;
+            const bounds = dialog.getBoundingClientRect();
+            if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) closeDialog();
+        });
+        dialog.addEventListener('close', () => {
+            if (dialog === aboutDialog) {
+                clearTimeout(aboutCloseTimer);
+                aboutDialog.classList.remove('chairs-about-closing');
+            }
+            const cursor = dialog.querySelector('.chairs-cursor');
+            if (cursor) document.body.append(cursor);
+            if (controls) controls.enabled = true;
+            resetCubes();
+            pointerPending = true;
+            requestRender();
+        });
+    });
+
+    aboutDialog.addEventListener('cancel', event => {
+        event.preventDefault();
+        closeCollectionAbout();
+    });
+    aboutDialog.addEventListener('animationend', event => {
+        if (event.target === aboutDialog && event.animationName === 'chairs-about-drawer-out') aboutDialog.close();
+    });
+
+    function closeCollectionAbout() {
+        if (!aboutDialog.open || aboutDialog.classList.contains('chairs-about-closing')) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            aboutDialog.close();
+            return;
+        }
+        aboutDialog.classList.add('chairs-about-closing');
+        aboutCloseTimer = setTimeout(() => {
+            if (aboutDialog.open) aboutDialog.close();
+        }, 300);
+    }
+
+    function showCollectionAbout() {
+        if (controls) controls.enabled = false;
+        const cursor = document.querySelector('.chairs-cursor');
+        if (cursor) aboutDialog.append(cursor);
+        if (!aboutDialog.open) aboutDialog.showModal();
+        aboutDialog.scrollTop = 0;
+    }
 
     function initScene() {
         scene = new THREE.Scene();
@@ -149,51 +392,83 @@
         directionalLight.position.set(1, 1, 1);
         scene.add(directionalLight);
 
-        loadTextures();
-
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
+        controls.addEventListener('change', requestRender);
+        controls.addEventListener('start', requestRender);
+        controls.addEventListener('end', requestRender);
 
         renderer.domElement.addEventListener('click', onMouseClick, false);
         renderer.domElement.addEventListener('mousemove', onMouseMove, false);
 
         window.addEventListener('resize', onWindowResize, false);
 
-        animate();
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                cancelAnimationFrame(renderFrame);
+                renderFrame = 0;
+            } else {
+                pointerPending = true;
+                resumeTextureLoading();
+                requestRender();
+            }
+        });
+
+        createCubeSphere();
+        loadTextures();
+        requestRender();
     }
 
     function loadTextures() {
-        let loadedTextures = 0;
+        const queue = Array.from({ length: 57 }, (_, index) => ({ index, attempt: 0 }));
+        let active = 0;
 
-        for (let i = 1; i <= 57; i++) {
-            textureLoader.load(`chair${i}.jpg`, (texture) => {
-                textures[i - 1] = texture;
-                loadedTextures++;
-
-                if (loadedTextures === 57) {
-                    createCubeSphere();
-                }
-            }, undefined, (error) => {
-                console.error(`Load chair${i}.jpg failed:`, error);
-            });
+        function pump() {
+            if (document.hidden) return;
+            while (active < 4 && queue.length) {
+                const item = queue.shift();
+                active++;
+                textureLoader.load(`chair${item.index + 1}.jpg`, texture => {
+                    active--;
+                    textures[item.index] = texture;
+                    materials[item.index].map = texture;
+                    materials[item.index].needsUpdate = true;
+                    cubes.forEach(cube => {
+                        if (cube.userData.textureIndex === item.index) cube.visible = true;
+                    });
+                    requestRender();
+                    pump();
+                }, undefined, error => {
+                    active--;
+                    if (item.attempt === 0) {
+                        queue.push({ index: item.index, attempt: 1 });
+                    } else {
+                        console.error(`Load chair${item.index + 1}.jpg failed:`, error);
+                    }
+                    pump();
+                });
+            }
         }
+
+        resumeTextureLoading = pump;
+        pump();
     }
 
     function createCubeSphere() {
         const geometry = new THREE.BoxGeometry(57, 57, 57);
+        materials = Array.from({ length: 57 }, () => new THREE.MeshPhongMaterial({
+            transparent: true,
+            opacity: 0.9
+        }));
 
         let index = 0;
         for (let z = 0; z <= 180; z += 30) {
             for (let x = 0; x < 360; x += 30) {
                 if (z === 180 && x > 0) continue;
 
-                let material = new THREE.MeshPhongMaterial({
-                    map: textures[index % 57],
-                    transparent: true,
-                    opacity: 0.9
-                });
-                const cube = new THREE.Mesh(geometry, material);
+                const cube = new THREE.Mesh(geometry, materials[index % 57]);
+                cube.visible = false;
 
                 const radius = 400;
                 const phi = THREE.Math.degToRad(z);
@@ -219,44 +494,66 @@
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
+        camera.updateMatrixWorld();
         raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(cubes);
+        const intersects = raycaster.intersectObjects(cubes.filter(cube => cube.visible));
         if (intersects.length > 0) {
             const clickedCube = intersects[0].object;
-            showInfoBox(event.clientX, event.clientY, clickedCube);
+            showInfoBox(clickedCube);
 
             resetCubes();
             clickedCube.userData.click = true;
             clickedCube.scale.set(1.1, 1.1, 1.1);
         } else {
-            document.getElementById('info-box').style.display = 'none';
+            if (storyDialog.open) storyDialog.close();
             resetCubes();
         }
+        requestRender();
     }
 
     function onMouseMove(event) {
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(cubes);
-        renderer.domElement.style.cursor = intersects.length > 0 ? 'pointer' : 'default';
+        pointerPending = true;
+        requestRender();
     }
 
-    function showInfoBox(x, y, cube) {
-        const infoBox = document.getElementById('info-box');
+    function updatePointerHover() {
+        camera.updateMatrixWorld();
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(cubes.filter(cube => cube.visible));
+        const nextHovered = intersects.length > 0;
+        if (nextHovered !== hovered) {
+            hovered = nextHovered;
+            renderer.domElement.style.cursor = hovered ? 'pointer' : 'default';
+        }
+    }
+
+    function showInfoBox(cube) {
         const cubeIndex = cube.userData.index;
         const textureIndex = cube.userData.textureIndex;
-
-		const content = contents[cubeIndex % contents.length];
-        infoBox.innerHTML = `
-          ${content}<br>
-          <img src="chair${textureIndex + 1}.jpg">
-        `;
-
-        infoBox.style.left = (x + 10) + 'px';
-        infoBox.style.top = (y + 10) + 'px';
-        infoBox.style.display = 'block';
+        const contentIndex = cubeIndex % contents.length;
+        const breaks = [
+            ['Then we spend', 'But I have never', 'Finally I made'],
+            ['Back then,', 'My paint chipped,', 'The moment the iron door'],
+            ['The night wind', 'It is not that', 'Sometimes I envy'],
+            ['Back then,', 'Then came renovation.'],
+            ['They do not know', 'I tell myself']
+        ];
+        const content = breaks[contentIndex].reduce((text, start) => text.replace(` ${start}`, `\n\n${start}`), contents[contentIndex]);
+        const paragraphs = content.split('\n\n').map(text => {
+            const paragraph = document.createElement('p');
+            paragraph.textContent = text;
+            return paragraph;
+        });
+        document.getElementById('chairs-story-copy').replaceChildren(...paragraphs);
+        document.getElementById('chairs-story-title').textContent = `Chair ${String(textureIndex + 1).padStart(2, '0')}`;
+        document.getElementById('chairs-story-image').src = `chair${textureIndex + 1}.jpg`;
+        controls.enabled = false;
+        const cursor = document.querySelector('.chairs-cursor');
+        if (cursor) storyDialog.append(cursor);
+        if (!storyDialog.open) storyDialog.showModal();
+        storyDialog.scrollTop = 0;
     }
 
     function resetCubes() {
@@ -272,74 +569,45 @@
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
+        pointerPending = true;
+        requestRender();
     }
 
-    function animate() {
-        requestAnimationFrame(animate);
-        controls.update();
+    function requestRender() {
+        if (!document.hidden && !renderFrame) {
+            renderFrame = requestAnimationFrame(renderScene);
+        }
+    }
+
+    function renderScene() {
+        renderFrame = 0;
+        if (document.hidden) return;
+        const controlsChanged = controls.update();
+        if (pointerPending || controlsChanged) {
+            pointerPending = false;
+            updatePointerHover();
+        }
         renderer.render(scene, camera);
+        if (controlsChanged) requestRender();
     }
 
     window.onload = function () {
         initScene();
-        initTiles();
     };
-
-    const TEXT = "I once was green with glimpses of my true self below once I was useful now I'm down to bare bones purely ornamental I've been white as well now I'm a patchwork of all those layers I simply am";
-    const WORDS = TEXT.split(" ");
-    const TOTAL_TILES = WORDS.length;
-
-    function initTiles() {
-        if (window.__tilesInitialized) return;
-        window.__tilesInitialized = true;
-
-        const container = document.getElementById('background-text');
-        const frag = document.createDocumentFragment();
-
-        for (let i = 0; i < TOTAL_TILES; i++) {
-            const div = document.createElement('div');
-            div.className = 'text-tile';
-            div.textContent = WORDS[i];
-            frag.appendChild(div);
-        }
-        container.appendChild(frag);
-
-        container.addEventListener('click', () => {
-            const tiles = document.querySelectorAll('.text-tile');
-            tiles.forEach(tile => {
-                const dx = (Math.random() - 0.5) * window.innerWidth;
-                const dy = (Math.random() - 0.5) * window.innerHeight;
-                tile.style.setProperty('--dx', `${dx}px`);
-                tile.style.setProperty('--dy', `${dy}px`);
-                const delay = Math.random() * 700;
-                setTimeout(() => tile.classList.add('snowflake'), delay);
-            });
-            setTimeout(() => container.classList.add('hidden-layer'), 1800);
-        }, { once: true });
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initTiles);
-    } else {
-        initTiles();
-    }
 
     function goHome() {
       window.location.href = "./";
     }
 
-    function goNext() {
-      window.location.href = "next.html";
-    }
 </script>
 
 <!-- Separate button containers -->
 <div id="home-button">
-    <button onclick="goHome()">Home</button>
+    <button class="chairs-brand-home" onclick="goHome()">Abandoned Chairs</button>
 </div>
 
 <div id="next-button">
-    <button onclick="goNext()">Let's Find Your Chair</button>
+    <button class="chairs-brand-home" type="button" onclick="showCollectionAbout()">About this page</button>
 </div>
 </body>
 </html>

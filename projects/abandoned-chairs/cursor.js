@@ -1,4 +1,28 @@
 (() => {
+  if (document.getElementById('chairs-about-script')) return;
+  const base = new URL('.', document.currentScript.src);
+  if (location.pathname === base.pathname || location.pathname === new URL('index.html', base).pathname) {
+    const homeStyles = document.createElement('link');
+    homeStyles.rel = 'stylesheet';
+    homeStyles.href = new URL('home.css?v=20261020-home-size-3', base).href;
+    const homeScript = document.createElement('script');
+    homeScript.src = new URL('home.js?v=20261020-home-type-2', base).href;
+    document.head.append(homeStyles, homeScript);
+  }
+  if (!document.getElementById('chairs-about-styles')) {
+    const stylesheet = document.createElement('link');
+    stylesheet.id = 'chairs-about-styles';
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = new URL('about.css?v=20261020-type-1', base).href;
+    document.head.append(stylesheet);
+  }
+  const script = document.createElement('script');
+  script.id = 'chairs-about-script';
+  script.src = new URL('about.js?v=20261020-links-2', base).href;
+  document.head.append(script);
+})();
+
+(() => {
   if (window.chairsCursor) return;
   const media = window.matchMedia('(hover: hover) and (pointer: fine)');
   if (!media.matches) return;
@@ -25,6 +49,7 @@
   let previousTime = 0;
 
   function render(time) {
+    frame = 0;
     const delta = Math.min((time - previousTime) || 16.7, 50);
     previousTime = time;
     const ease = reducedMotion.matches ? 1 : 1 - Math.exp(-delta / 70);
@@ -35,7 +60,7 @@
     const domHover = target instanceof Element && Boolean(target.closest('a, button, input, textarea, select, [role="button"], [data-cursor-hover]'));
     const canvasHover = target instanceof HTMLElement && target.style.cursor === 'pointer';
     cursor.classList.toggle('is-hovering', sceneHover || domHover || canvasHover || document.body.style.cursor === 'pointer');
-    if (visible) frame = requestAnimationFrame(render);
+    if (visible && Math.hypot(x - ringX, y - ringY) > 0.05) frame = requestAnimationFrame(render);
   }
 
   function move(event) {
@@ -55,6 +80,10 @@
       previousTime = 0;
       frame = requestAnimationFrame(render);
     }
+    if (!frame) {
+      previousTime = 0;
+      frame = requestAnimationFrame(render);
+    }
   }
 
   function pointerDown(event) {
@@ -68,10 +97,12 @@
     cursor.classList.remove('is-visible', 'is-hovering');
     document.documentElement.classList.remove('chairs-cursor-active');
     cancelAnimationFrame(frame);
+    frame = 0;
   }
 
   function hover(event) {
     sceneHover = Boolean(event.detail);
+    if (visible && !frame) frame = requestAnimationFrame(render);
   }
 
   function visibility() {

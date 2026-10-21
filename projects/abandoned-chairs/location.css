@@ -1,0 +1,432 @@
+.chairs-location-page {
+  --chairs-field-top: 104px;
+  --chairs-reading-center: calc(50svh - var(--chairs-field-top) - 15px);
+  background-color: #1a2e4b;
+  background-image:
+    radial-gradient(ellipse 100% 44% at 50% 49%, rgb(208 200 225 / 42%), rgb(158 169 190 / 20%) 48%, transparent 82%),
+    linear-gradient(180deg, rgb(23 47 77 / 24%) 0%, rgb(44 69 99 / 8%) 24%, rgb(147 158 181 / 26%) 48%, rgb(32 52 81 / 32%) 70%, rgb(10 24 46 / 82%) 100%),
+    url('sky.jpg');
+}
+
+.chairs-location-page.chairs-map-open {
+  --chairs-reading-center: 30px;
+}
+
+.chairs-location-page #nav-buttons {
+  position: fixed;
+  z-index: 1000;
+  inset: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  height: 88px;
+  padding: 0 32px;
+  gap: 20px;
+}
+
+.chairs-location-page #nav-buttons button:first-child,
+.chairs-location-page #nav-buttons button:last-child {
+  position: static;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #faf7ff;
+  white-space: nowrap;
+}
+
+.chairs-location-page #nav-buttons button:last-child {
+  font: 400 16px/1.4 ChairsSupporting, sans-serif;
+}
+
+.chairs-location-page #nav-buttons button:hover {
+  color: #ded2ff;
+  background: transparent;
+}
+
+.chairs-location-page #nav-buttons button:focus-visible {
+  outline: 2px solid #ded2ff;
+  outline-offset: 5px;
+}
+
+.chairs-location-page #field {
+  top: var(--chairs-field-top);
+  bottom: 0;
+  overflow: hidden;
+  opacity: 0.52;
+  mask-image:
+    radial-gradient(ellipse min(560px, 75vw) 140px at 50% var(--chairs-reading-center), rgb(0 0 0 / 12%), rgb(0 0 0 / 24%) 35%, #000 100%),
+    linear-gradient(to bottom, transparent 0%, rgb(0 0 0 / 2%) 12%, rgb(0 0 0 / 12%) 28%, rgb(0 0 0 / 34%) 42%, rgb(0 0 0 / 58%) 56%, rgb(0 0 0 / 80%) 78%, #000 100%);
+  mask-composite: intersect;
+}
+
+.chairs-location-page #center-box {
+  width: min(520px, calc(100vw - 48px));
+}
+
+.chairs-location-form {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px;
+  border-radius: 8px;
+  color: #263851;
+  background: #faf7ff;
+  box-shadow: 0 4px 24px rgb(18 29 48 / 20%);
+}
+
+.chairs-location-page #center-box input {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  padding: 15px 16px;
+  border: 0;
+  border-radius: 3px;
+  color: #263851;
+  background: transparent;
+  box-shadow: none;
+  font: 400 18px/1.4 ChairsSupporting, sans-serif;
+}
+
+.chairs-location-page #center-box input::placeholder {
+  color: #697084;
+  opacity: 1;
+}
+
+.chairs-location-form button {
+  align-self: stretch;
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 4px;
+  color: #263851;
+  background: #ded2ff;
+  font: 400 16px/1.4 ChairsSupporting, sans-serif;
+}
+
+.chairs-location-form button:disabled {
+  opacity: 0.6;
+}
+
+.chairs-location-page #center-box input:focus-visible,
+.chairs-location-form button:focus-visible,
+.chairs-location-close:focus-visible,
+.chairs-location-tabs button:focus-visible {
+  outline: 2px solid #675793;
+  outline-offset: 2px;
+}
+
+.chairs-location-status {
+  min-height: 20px;
+  margin: 10px 0 0;
+  color: #faf7ff;
+  font: 400 14px/1.4 ChairsSupporting, sans-serif;
+  text-align: center;
+  text-shadow: 0 1px 6px #1a2942;
+}
+
+.chairs-location-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.chairs-map-open #center-box {
+  top: 100px;
+  transform: translateX(-50%);
+}
+
+.chairs-map-open #field {
+  opacity: 0.15;
+}
+
+.chairs-location-results {
+  position: fixed;
+  z-index: 500;
+  inset: 216px 32px 28px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgb(250 247 255 / 20%);
+  background: #19263d;
+  color: #faf7ff;
+  font: 400 16px/1.4 ChairsSupporting, sans-serif;
+}
+
+.chairs-location-results[hidden],
+.chairs-location-street-status[hidden] {
+  display: none;
+}
+
+.chairs-location-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: 24px;
+  min-height: 54px;
+  padding: 0 20px;
+}
+
+.chairs-location-result-header h1 {
+  overflow: hidden;
+  margin: 0;
+  font: 400 18px/1.4 ChairsSupporting, sans-serif;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chairs-location-close {
+  flex-shrink: 0;
+  min-width: 32px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  color: #faf7ff;
+  background: transparent;
+  font: 300 16px/1 ChairsInterface, sans-serif;
+}
+
+.chairs-location-views {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  flex: 1;
+  min-height: 0;
+}
+
+.chairs-location-pane {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+}
+
+.chairs-location-pane + .chairs-location-pane {
+  border-left: 1px solid rgb(250 247 255 / 20%);
+}
+
+#chairs-location-map,
+#chairs-location-streetview {
+  width: 100%;
+  height: 100%;
+}
+
+.chairs-location-street-status {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  margin: 0;
+  padding: 28px;
+  color: #e0deea;
+  background: #19263d;
+  text-align: center;
+}
+
+.chairs-location-tabs {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .chairs-location-results {
+    inset: 216px 24px 20px;
+  }
+
+  .chairs-location-result-header {
+    gap: 12px;
+    padding: 0 16px;
+  }
+
+  .chairs-location-result-header h1 {
+    font-size: 16px;
+  }
+
+  .chairs-location-tabs {
+    display: flex;
+    flex-shrink: 0;
+    gap: 24px;
+    min-height: 40px;
+    padding: 0 16px;
+  }
+
+  .chairs-location-tabs button {
+    padding: 0 0 8px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    color: #e0deea;
+    background: transparent;
+    font: 400 14px/1.4 ChairsSupporting, sans-serif;
+  }
+
+  .chairs-location-tabs button[aria-selected='true'] {
+    border-bottom-color: #ded2ff;
+    color: #ded2ff;
+  }
+
+  .chairs-location-views {
+    display: block;
+    position: relative;
+  }
+
+  .chairs-location-pane {
+    position: absolute;
+    inset: 0;
+  }
+
+  .chairs-location-pane + .chairs-location-pane {
+    border: 0;
+  }
+
+  .chairs-location-results[data-view='map'] .chairs-location-pane-streetview,
+  .chairs-location-results[data-view='streetview'] .chairs-location-pane-map {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 540px) {
+  .chairs-location-page {
+    --chairs-field-top: 96px;
+  }
+
+  .chairs-location-page #nav-buttons {
+    height: 80px;
+    padding: 0 20px;
+    gap: 16px;
+  }
+
+  .chairs-location-page #nav-buttons button.chairs-brand-home {
+    font-size: 18px;
+  }
+
+  .chairs-location-page #nav-buttons button:last-child {
+    font-size: 14px;
+  }
+
+  .chairs-location-page #field {
+    font-size: 40px;
+  }
+
+  .chairs-location-page #center-box input {
+    padding: 13px 12px;
+    font-size: 16px;
+  }
+
+  .chairs-location-form button {
+    padding: 10px 16px;
+  }
+
+  .chairs-map-open #center-box {
+    top: 96px;
+  }
+
+  .chairs-location-results {
+    inset: 208px 16px 16px;
+  }
+}
+
+#chairs-location-about {
+  position: fixed;
+  inset: 0 0 0 auto;
+  box-sizing: border-box;
+  width: min(480px, 100vw);
+  max-width: none;
+  height: 100vh;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 96px clamp(24px, 5vw, 40px) 40px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 0;
+  border-left: 1px solid rgb(250 247 255 / 14%);
+  color: #e0deea;
+  background: #263851;
+  font: 400 17px/1.65 ChairsSupporting, sans-serif;
+  scrollbar-color: #697084 #263851;
+}
+
+#chairs-location-about::backdrop {
+  background: rgb(12 20 34 / 38%);
+}
+
+#chairs-location-about[open] {
+  animation: chairs-location-about-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+#chairs-location-about[open]::backdrop {
+  animation: chairs-location-about-fade-in 260ms ease-out both;
+}
+
+#chairs-location-about.is-closing {
+  animation: chairs-location-about-out 220ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+#chairs-location-about.is-closing::backdrop {
+  animation: chairs-location-about-fade-out 220ms ease-in both;
+}
+
+#chairs-location-about-title {
+  margin: 0 0 28px;
+  color: #faf7ff;
+  font: 400 26px/1.3 ChairsSupporting, sans-serif;
+}
+
+#chairs-location-about p {
+  margin: 0 0 20px;
+}
+
+.chairs-location-about-close {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: #faf7ff;
+  background: transparent;
+  font: 300 16px/1 ChairsInterface, sans-serif;
+}
+
+.chairs-location-about-close:hover {
+  color: #ded2ff;
+}
+
+.chairs-location-about-close:focus-visible {
+  outline: 2px solid #ded2ff;
+  outline-offset: 2px;
+}
+
+@keyframes chairs-location-about-in {
+  from { right: max(-480px, -100vw); }
+  to { right: 0; }
+}
+
+@keyframes chairs-location-about-out {
+  from { right: 0; }
+  to { right: max(-480px, -100vw); }
+}
+
+@keyframes chairs-location-about-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes chairs-location-about-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #chairs-location-about[open],
+  #chairs-location-about[open]::backdrop {
+    animation: none;
+  }
+}

@@ -1,0 +1,216 @@
+@font-face {
+  font-family: ChairsDisplay;
+  src: url('Barrio-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: ChairsInterface;
+  src: url('_next/static/media/e4af272ccee01ff0-s.p.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: ChairsSupporting;
+  src: url('fonts/Asap-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+.chairs-about-button,
+.chairs-about-home,
+.chairs-about-current {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 44px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 3px;
+  color: #faf7ff;
+  background: transparent;
+  font: 400 16px/1.4 ChairsSupporting, sans-serif;
+  letter-spacing: 0;
+  text-decoration: none;
+  text-transform: none;
+  text-shadow: 0 1px 6px rgb(29 31 65 / 70%);
+}
+
+.chairs-about-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2000;
+  transition: color 160ms ease;
+}
+
+.chairs-about-button:hover,
+.chairs-about-home:hover {
+  color: #ded2ff;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.chairs-about-button:focus-visible,
+.chairs-about-home:focus-visible,
+.chairs-about-explore:focus-visible {
+  outline: 2px solid #faf7ff;
+  outline-offset: 3px;
+  background: #514174;
+}
+
+.chairs-has-about #next-button,
+.chairs-has-about #nav-buttons button:last-child {
+  right: 120px;
+}
+
+.chairs-about-page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0;
+  color: #faf7ff;
+  background: linear-gradient(rgb(25 35 61 / 54%), rgb(25 35 61 / 74%)), url('sky.jpg') center / cover fixed;
+  font: 400 20px/1.65 ChairsSupporting, sans-serif;
+}
+
+.chairs-about-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 32px;
+}
+
+.chairs-brand-home,
+#nav-buttons button.chairs-brand-home {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: #faf7ff;
+  background: transparent;
+  font: 400 20px/1.4 ChairsDisplay, sans-serif;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+}
+
+.chairs-brand-home:hover,
+#nav-buttons button.chairs-brand-home:hover {
+  color: #ded2ff;
+  background: transparent;
+  text-decoration: none;
+}
+
+.chairs-brand-home:focus-visible,
+#nav-buttons button.chairs-brand-home:focus-visible {
+  outline: 2px solid #ded2ff;
+  outline-offset: 5px;
+}
+
+#home-button,
+#nav-buttons button.chairs-brand-home {
+  left: 32px;
+}
+
+.chairs-about-current {
+  color: #ded2ff;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.chairs-about-content {
+  box-sizing: border-box;
+  width: min(100%, 800px);
+  margin: 0 auto;
+  padding: clamp(48px, 10vh, 120px) 40px 80px;
+}
+
+.chairs-about-content h1 {
+  max-width: 12ch;
+  margin: 0 0 36px;
+  color: #ded2ff;
+  font: 400 clamp(54px, 8vw, 88px)/1.02 ChairsDisplay, sans-serif;
+  letter-spacing: -0.025em;
+}
+
+.chairs-about-content p {
+  max-width: 48ch;
+  margin: 0 0 20px;
+}
+
+.chairs-about-content .chairs-about-credit {
+  margin: 36px 0 44px;
+  color: #e0d8ee;
+  font-size: 16px;
+}
+
+.chairs-about-explore {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #ded2ff;
+  font-size: 16px;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+}
+
+.chairs-about-explore:hover {
+  color: #faf7ff;
+}
+
+@media (max-width: 540px) {
+  .chairs-brand-home,
+  #nav-buttons button.chairs-brand-home {
+    font-size: 18px;
+  }
+
+  #home-button,
+  #nav-buttons button.chairs-brand-home {
+    top: 12px;
+    left: 24px;
+  }
+
+  #next-button {
+    top: 68px;
+    right: 24px;
+  }
+  .chairs-about-button {
+    top: 12px;
+    right: 12px;
+  }
+
+  .chairs-has-about #next-button,
+  .chairs-has-about #nav-buttons button:last-child {
+    top: 72px;
+    right: 16px;
+  }
+
+  .chairs-has-about #home-button,
+  .chairs-has-about #nav-buttons button:first-child {
+    top: 12px;
+    left: 24px;
+  }
+
+  .chairs-about-header {
+    padding: 12px 24px;
+  }
+
+  .chairs-about-content {
+    padding: 56px 24px 56px;
+    font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chairs-about-button {
+    transition: none;
+  }
+}

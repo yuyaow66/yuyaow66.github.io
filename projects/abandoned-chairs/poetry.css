@@ -1,0 +1,87 @@
+html { background: #19263d; color-scheme: dark; }
+.chairs-poetry-page {
+  --poetry-ink: #f0edf2;
+  --poetry-muted: #bac2d0;
+  --poetry-accent: #ded2ef;
+  --poetry-rule: rgb(221 228 242 / 19%);
+  overflow-x: hidden;
+  background: linear-gradient(110deg, rgb(21 34 53 / 55%), rgb(21 34 53 / 36%) 55%, rgb(21 34 53 / 46%)), url('sky.jpg') center / cover fixed;
+}
+.chairs-poetry-page .chairs-about-header { max-width: 1320px; margin: 0 auto; padding: 24px 48px; }
+.chairs-poetry-content { box-sizing: border-box; max-width: 1320px; margin: 0 auto; padding: 64px 48px 120px; }
+.chairs-poetry-layout { display: grid; grid-template-columns: minmax(200px, 248px) minmax(0, 700px); justify-content: space-between; align-items: start; gap: 56px 88px; }
+.chairs-poetry-sidebar { position: sticky; top: 48px; }
+.chairs-poetry-index-label, .chairs-poetry-folio { margin: 0; color: var(--poetry-muted); font: 400 11px/1.5 ChairsSupporting, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+.chairs-poetry-index-label { display: flex; justify-content: space-between; align-items: center; min-height: 38px; margin-top: 0; padding-bottom: 14px; border-bottom: 1px solid var(--poetry-rule); font-size: 10px; }
+.chairs-poetry-index { display: grid; }
+.chairs-poetry-choice { position: relative; display: grid; grid-template-columns: 20px minmax(0, 1fr) 32px; align-items: baseline; gap: 10px; min-height: 44px; padding: 16px 0; border-bottom: 1px solid rgb(221 228 242 / 10%); color: var(--poetry-muted); font: 400 14px/1.5 ChairsSupporting, sans-serif; text-decoration: none; transition: color 160ms ease; }
+.chairs-poetry-choice[aria-current='true'] { color: var(--poetry-ink); }
+.chairs-poetry-choice[aria-current='true']::before { content: ''; position: absolute; top: 19px; bottom: 19px; left: -15px; width: 2px; background: var(--poetry-accent); }
+.chairs-poetry-choice:hover { color: var(--poetry-ink); }
+.chairs-poetry-choice-number, .chairs-poetry-pages { font: 400 10px/1.5 ChairsSupporting, sans-serif; font-variant-numeric: tabular-nums; }
+.chairs-poetry-choice-number { opacity: .65; }
+.chairs-poetry-pages { text-align: right; color: var(--poetry-muted); }
+.chairs-poetry-note { max-width: 22ch; margin: 28px 0 0; color: var(--poetry-muted); font: 400 12px/1.7 ChairsSupporting, sans-serif; }
+.chairs-poetry-note em { font-style: normal; color: #d8dae3; }
+.chairs-poetry-reader { min-width: 0; }
+.chairs-poetry-reader-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 24px; min-height: 38px; padding-bottom: 14px; border-bottom: 1px solid var(--poetry-rule); }
+.chairs-poetry-folio { display: flex; gap: 22px; font-size: 10px; letter-spacing: .06em; font-variant-numeric: tabular-nums; }
+.chairs-poetry-modes, .chairs-poetry-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 24px; }
+.chairs-poetry-modes button, .chairs-poetry-controls button { padding: 8px 0; border: 0; border-radius: 0; color: var(--poetry-muted); background: transparent; font: 400 12px/1.5 ChairsSupporting, sans-serif; text-decoration: none; text-underline-offset: 7px; text-decoration-thickness: 1px; }
+.chairs-poetry-modes button[aria-pressed='true'] { color: var(--poetry-ink); text-decoration: underline; text-decoration-color: var(--poetry-accent); }
+.chairs-poetry-controls { margin: -14px 0 20px; }
+.chairs-poetry-controls button { color: var(--poetry-ink); text-decoration: underline; text-decoration-color: rgb(221 228 242 / 45%); }
+.chairs-poetry-modes button:hover, .chairs-poetry-controls button:hover { color: var(--poetry-accent); }
+.chairs-poetry-choice:focus-visible, .chairs-poetry-modes button:focus-visible, .chairs-poetry-controls button:focus-visible, .chairs-poetry-stage:focus-visible { outline: 1px solid var(--poetry-accent); outline-offset: 6px; }
+.chairs-poetry-poem { margin-top: 38px; }
+.chairs-poetry-poem h2 { max-width: 25ch; margin: 0; color: var(--poetry-ink); font: 400 clamp(30px, 3vw, 40px)/1.16 ChairsDisplay, sans-serif; letter-spacing: 0; text-wrap: balance; }
+.chairs-poetry-credit { margin: 14px 0 42px; color: var(--poetry-muted); font: 400 13px/1.5 ChairsSupporting, sans-serif; }
+.chairs-poetry-text { max-width: 100%; margin: 0; color: var(--poetry-ink); font: 400 clamp(19px, 1.6vw, 21px)/1.75 ChairsSupporting, sans-serif; font-kerning: normal; -webkit-font-smoothing: antialiased; white-space: normal; overflow-wrap: break-word; }
+.chairs-poetry-line { display: block; min-height: 1.75em; margin-left: min(var(--poem-indent, 0ch), 18%); padding-left: 1em; text-indent: -1em; }
+.chairs-poetry-line.is-stanza-space { min-height: 1.1em; }
+.chairs-poetry-word { display: inline-block; text-indent: 0; }
+.chairs-poetry-hint { max-width: 52ch; margin: 0 0 26px; color: var(--poetry-muted); font: 400 13px/1.65 ChairsSupporting, sans-serif; }
+.chairs-poetry-stage { position: relative; min-width: 0; padding-bottom: 32px; touch-action: pan-y; isolation: isolate; scroll-margin-top: 36px; }
+.chairs-poetry-canvas { display: none; position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.chairs-poetry-stage.is-artboard { width: min(100%, 500px, calc((100svh - 100px) * .75)); aspect-ratio: 3 / 4; margin: 0 auto; padding: 0; overflow: hidden; background: transparent; }
+.is-artboard .chairs-poetry-text { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+.is-motion-ready .chairs-poetry-canvas { display: block; }
+.is-motion-ready .chairs-poetry-text { opacity: 0; }
+.chairs-poetry-status, .chairs-poetry-sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.chairs-poetry-page [hidden] { display: none !important; }
+@media (max-width: 1100px) {
+  .chairs-poetry-layout { grid-template-columns: 210px minmax(0, 1fr); gap: 52px; }
+  .chairs-poetry-choice { grid-template-columns: 16px minmax(0, 1fr) 28px; gap: 7px; font-size: 13px; }
+}
+@media (max-width: 860px) {
+  .chairs-poetry-page .chairs-about-header { padding: 20px 32px; }
+  .chairs-poetry-content { padding: 28px 32px 80px; }
+  .chairs-poetry-layout { display: block; }
+  .chairs-poetry-sidebar { position: static; }
+  .chairs-poetry-index-label, .chairs-poetry-note { display: none; }
+  .chairs-poetry-index { display: flex; gap: 24px; margin-top: 0; padding-bottom: 10px; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; scrollbar-color: rgb(221 228 242 / 22%) transparent; }
+  .chairs-poetry-choice { flex: 0 0 180px; grid-template-columns: 16px minmax(0, 1fr); grid-template-rows: auto auto; min-height: 0; padding: 0 0 14px; gap: 8px; border-bottom-color: var(--poetry-rule); font-size: 13px; }
+  .chairs-poetry-choice-number { grid-row: 1 / 3; }
+  .chairs-poetry-pages { grid-column: 2; text-align: left; }
+  .chairs-poetry-choice[aria-current='true'] { border-bottom-color: var(--poetry-accent); }
+  .chairs-poetry-choice[aria-current='true']::before { display: none; }
+  .chairs-poetry-reader { margin-top: 34px; }
+  .chairs-poetry-poem { margin-top: 28px; }
+  .chairs-poetry-poem h2 { font-size: 32px; }
+  .chairs-poetry-credit { margin-bottom: 32px; }
+  .chairs-poetry-text { font-size: 20px; line-height: 1.75; }
+}
+@media (max-width: 480px) {
+  .chairs-poetry-page .chairs-about-header { padding: 16px 24px; }
+  .chairs-poetry-content { padding: 24px 24px 64px; }
+  .chairs-poetry-reader-toolbar { gap: 12px; }
+  .chairs-poetry-modes { gap: 18px; }
+  .chairs-poetry-folio { font-size: 9px; }
+  .chairs-poetry-poem h2 { font-size: 29px; }
+  .chairs-poetry-text { font-size: 19px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chairs-poetry-choice { transition: none; }
+  .chairs-poetry-canvas { display: none; }
+}
+
