@@ -254,10 +254,8 @@
     active = selected;
     selected.article.querySelector('.chairs-poetry-credit').after(controls);
     const selectedChoice = choices.find(choice => choice.hash === `#${selected.article.id}`);
-    const page = selectedChoice?.querySelector('.chairs-poetry-pages')?.textContent || '';
     if (folio) {
       folio.querySelector('.chairs-poetry-folio-order').textContent = `Poem ${String(stages.indexOf(selected) + 1).padStart(2, '0')}`;
-      folio.querySelector('.chairs-poetry-folio-page').textContent = `Page ${page}`;
     }
     const index = selectedChoice?.parentElement;
     if (index && index.scrollWidth > index.clientWidth) {
