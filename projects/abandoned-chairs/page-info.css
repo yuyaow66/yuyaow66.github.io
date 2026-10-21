@@ -1,0 +1,55 @@
+#chairs-collection-about,
+#chairs-location-about,
+#chairs-poetry-about {
+  inset: 80px 0 auto auto;
+  width: min(440px, 100vw);
+  height: auto;
+  max-height: calc(100vh - 104px);
+  max-height: calc(100dvh - 104px);
+  padding: 28px 32px 32px;
+  font: 400 17px/1.6 ChairsSupporting, sans-serif;
+}
+
+#chairs-collection-about-title,
+#chairs-location-about-title,
+#chairs-poetry-about-title {
+  margin: 0 40px 18px 0;
+  font: 400 24px/1.3 ChairsSupporting, sans-serif;
+}
+
+#chairs-collection-about p,
+#chairs-location-about p,
+#chairs-poetry-about p {
+  margin: 0 0 16px;
+}
+
+#chairs-collection-about .chairs-collection-about-guide {
+  margin: 20px 0 0;
+}
+
+#chairs-collection-about p:last-of-type,
+#chairs-location-about p:last-of-type,
+#chairs-poetry-about p:last-of-type {
+  margin-bottom: 0;
+}
+
+#chairs-collection-about .chairs-dialog-close,
+#chairs-location-about .chairs-location-about-close,
+#chairs-poetry-about .chairs-poetry-about-close {
+  position: absolute;
+  top: 20px;
+  right: 16px;
+  font: 400 16px/1 ChairsSupporting, sans-serif;
+}
+
+@media (max-width: 540px) {
+  #chairs-collection-about,
+  #chairs-location-about,
+  #chairs-poetry-about {
+    top: 72px;
+    width: 100vw;
+    max-height: calc(100vh - 88px);
+    max-height: calc(100dvh - 88px);
+    padding: 24px;
+  }
+}
