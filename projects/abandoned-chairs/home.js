@@ -6,7 +6,7 @@
     { category: 'The collection', name: 'Left Behind', page: 'collection.html' },
     { category: 'Poetry', name: 'What Remains', page: 'poetry.html' },
     { category: 'Find your chair', name: 'A Place to Land', page: 'next.html' },
-    { category: 'About the project', name: 'A Second Look', page: 'about.html' }
+    { category: 'About the project', name: 'More Than a Chair', page: 'about.html' }
   ];
 
   const index = document.createElement('section');
