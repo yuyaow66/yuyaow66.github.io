@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="preload" href="poetry-chair-red.png" as="image" fetchpriority="high">
+    <link rel="stylesheet" href="loading.css?v=20261021-chair-loader-1">
+    <script src="loading.js?v=20261021-chair-loader-1" data-page="collection"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8"/>
     <title>abandoned chairs</title>
@@ -131,6 +134,7 @@
         #chairs-story-image {
             display: block;
             width: 100%;
+            height: auto;
             max-height: calc(100svh - 180px);
             object-fit: contain;
             object-position: top center;
@@ -311,6 +315,10 @@
     let raycaster, mouse;
     let textureLoader;
     let materials = [];
+    let settledTextures = 0;
+    let loadedTextures = 0;
+    let collectionReady = false;
+    let storyRequest = 0;
     let renderFrame = 0;
     let pointerPending = false;
     let hovered = false;
@@ -369,6 +377,7 @@
     }
 
     function showCollectionAbout() {
+        storyRequest++;
         if (controls) controls.enabled = false;
         const cursor = document.querySelector('.chairs-cursor');
         if (cursor) aboutDialog.append(cursor);
@@ -436,8 +445,11 @@
             while (active < 4 && queue.length) {
                 const item = queue.shift();
                 active++;
-                textureLoader.load(`chair${item.index + 1}.jpg`, texture => {
+                textureLoader.load(`chair${item.index + 1}.jpg${item.index === 38 ? '?v=20261021-crop-1' : ''}`, texture => {
                     active--;
+                    settledTextures++;
+                    loadedTextures++;
+                    window.chairsLoader?.progress(settledTextures / 57 * 0.94);
                     textures[item.index] = texture;
                     materials[item.index].map = texture;
                     materials[item.index].needsUpdate = true;
@@ -451,6 +463,9 @@
                     if (item.attempt === 0) {
                         queue.push({ index: item.index, attempt: 1 });
                     } else {
+                        settledTextures++;
+                        window.chairsLoader?.progress(settledTextures / 57 * 0.94);
+                        requestRender();
                         console.error(`Load chair${item.index + 1}.jpg failed:`, error);
                     }
                     pump();
@@ -512,6 +527,7 @@
             clickedCube.userData.click = true;
             clickedCube.scale.set(1.1, 1.1, 1.1);
         } else {
+            storyRequest++;
             if (storyDialog.open) storyDialog.close();
             resetCubes();
         }
@@ -536,9 +552,24 @@
         }
     }
 
-    function showInfoBox(cube) {
+    async function showInfoBox(cube) {
+        const request = ++storyRequest;
         const cubeIndex = cube.userData.index;
         const textureIndex = cube.userData.textureIndex;
+        const source = textures[textureIndex]?.image;
+        if (!source) return;
+        const image = new Image();
+        image.id = 'chairs-story-image';
+        image.alt = `Chair ${String(textureIndex + 1).padStart(2, '0')}, photographed where it was found`;
+        image.width = source.naturalWidth;
+        image.height = source.naturalHeight;
+        image.src = source.currentSrc || source.src;
+        try {
+            await image.decode();
+        } catch {
+            return;
+        }
+        if (request !== storyRequest || aboutDialog.open) return;
         const contentIndex = cubeIndex % contents.length;
         const breaks = [
             ['Then we spend', 'But I have never', 'Finally I made'],
@@ -555,7 +586,7 @@
         });
         document.getElementById('chairs-story-copy').replaceChildren(...paragraphs);
         document.getElementById('chairs-story-title').textContent = `Chair ${String(textureIndex + 1).padStart(2, '0')}`;
-        document.getElementById('chairs-story-image').src = `chair${textureIndex + 1}.jpg`;
+        document.getElementById('chairs-story-image').replaceWith(image);
         controls.enabled = false;
         const cursor = document.querySelector('.chairs-cursor');
         if (cursor) storyDialog.append(cursor);
@@ -595,6 +626,11 @@
             updatePointerHover();
         }
         renderer.render(scene, camera);
+        if (settledTextures === 57 && !collectionReady) {
+            collectionReady = true;
+            if (loadedTextures) window.chairsLoader?.ready();
+            else window.chairsLoader?.fail();
+        }
         if (controlsChanged) requestRender();
     }
 
