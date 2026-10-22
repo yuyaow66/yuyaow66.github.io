@@ -112,11 +112,15 @@
     elapsed += dt;
     ctx.clearRect(0, 0, active.width, active.height);
     effect.frame(dt, elapsed);
+    if (effect.isIdle?.()) {
+      stop();
+      return;
+    }
     active.stage.dataset.running = 'true';
     frame = requestAnimationFrame(draw);
   };
   const start = () => {
-    if (!frame && effect && !paused && !aboutPanel?.open && !document.hidden && !motionPreference.matches && active.inView) frame = requestAnimationFrame(draw);
+    if (!frame && effect && !effect.isIdle?.() && !paused && !aboutPanel?.open && !document.hidden && !motionPreference.matches && active.inView) frame = requestAnimationFrame(draw);
   };
   const prepare = () => {
     dispose();
@@ -306,6 +310,7 @@
       const pressed = type === 'down' || (type === 'move' && (event.buttons & 1) !== 0);
       pointer = { x, y, dx: pointer.active ? x - pointer.x : 0, dy: pointer.active ? y - pointer.y : 0, active: type !== 'leave', pressed };
       effect.pointer?.(type, pointer);
+      start();
     };
     item.stage.addEventListener('pointerdown', event => {
       if (event.button !== 0) return;

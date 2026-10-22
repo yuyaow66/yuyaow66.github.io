@@ -321,6 +321,7 @@
     let storyRequest = 0;
     let renderFrame = 0;
     let pointerPending = false;
+    let sceneDirty = true;
     let hovered = false;
     let resumeTextureLoading = () => {};
 	const contents = [
@@ -538,7 +539,7 @@
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
         pointerPending = true;
-        requestRender();
+        requestRender(false);
     }
 
     function updatePointerHover() {
@@ -611,7 +612,8 @@
         requestRender();
     }
 
-    function requestRender() {
+    function requestRender(updateScene = true) {
+        if (updateScene !== false) sceneDirty = true;
         if (!document.hidden && !renderFrame) {
             renderFrame = requestAnimationFrame(renderScene);
         }
@@ -625,11 +627,14 @@
             pointerPending = false;
             updatePointerHover();
         }
-        renderer.render(scene, camera);
-        if (settledTextures === 57 && !collectionReady) {
-            collectionReady = true;
-            if (loadedTextures) window.chairsLoader?.ready();
-            else window.chairsLoader?.fail();
+        if (sceneDirty || controlsChanged) {
+            sceneDirty = false;
+            renderer.render(scene, camera);
+            if (settledTextures === 57 && !collectionReady) {
+                collectionReady = true;
+                if (loadedTextures) window.chairsLoader?.ready();
+                else window.chairsLoader?.fail();
+            }
         }
         if (controlsChanged) requestRender();
     }

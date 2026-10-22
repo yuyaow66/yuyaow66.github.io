@@ -413,6 +413,7 @@ void main() {
         }
         drawParticles(step);
       },
+      isIdle() { return origins.some(origin => age - origin.start >= 8) && !particles.length; },
       pointer(type, point) {
         if (disposed) return;
         if (type === 'down') {
@@ -499,16 +500,29 @@ void main() {
     const shapeStep = Math.max(1, Math.ceil(rawShape.length / 64));
     const chairShape = rawShape.filter((_, index) => index % shapeStep === 0).map(point => ({ x: Number(point.x ?? point[0]), y: Number(point.y ?? point[1]) }));
     const chair = { x: width * 0.53, y: height * 0.51, vx: 88, vy: 68, angle: 0 };
+    const shapeEdges = chairShape.map((b, index) => {
+      const a = chairShape[(index + chairShape.length - 1) % chairShape.length];
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      return { a, b, dx, dy, lengthSquared: dx * dx + dy * dy };
+    });
+    let rotationAngle = NaN;
+    let cosine = 1;
+    let sine = 0;
+    const updateRotation = () => {
+      if (rotationAngle === chair.angle) return;
+      rotationAngle = chair.angle;
+      cosine = Math.cos(rotationAngle);
+      sine = Math.sin(rotationAngle);
+    };
     const localPoint = (x, y) => {
-      const cosine = Math.cos(chair.angle);
-      const sine = Math.sin(chair.angle);
+      updateRotation();
       const dx = (x - chair.x) / chairHeight;
       const dy = (y - chair.y) / chairHeight;
       return { x: dx * cosine + dy * sine, y: -dx * sine + dy * cosine };
     };
     const worldPoint = point => {
-      const cosine = Math.cos(chair.angle);
-      const sine = Math.sin(chair.angle);
+      updateRotation();
       return { x: chair.x + (point.x * cosine - point.y * sine) * chairHeight, y: chair.y + (point.x * sine + point.y * cosine) * chairHeight };
     };
     const shapeContact = (x, y) => {
@@ -517,13 +531,8 @@ void main() {
       let nearestX = 0;
       let nearestY = 0;
       let nearestSquared = Infinity;
-      for (let index = 0, previous = chairShape.length - 1; index < chairShape.length; previous = index++) {
-        const a = chairShape[previous];
-        const b = chairShape[index];
-        if ((a.y > point.y) !== (b.y > point.y) && point.x < (b.x - a.x) * (point.y - a.y) / (b.y - a.y) + a.x) inside = !inside;
-        const dx = b.x - a.x;
-        const dy = b.y - a.y;
-        const lengthSquared = dx * dx + dy * dy;
+      for (const { a, b, dx, dy, lengthSquared } of shapeEdges) {
+        if ((a.y > point.y) !== (b.y > point.y) && point.x < dx * (point.y - a.y) / dy + a.x) inside = !inside;
         const fraction = lengthSquared > 0 ? clamp(((point.x - a.x) * dx + (point.y - a.y) * dy) / lengthSquared, 0, 1) : 0;
         const edgeX = a.x + dx * fraction;
         const edgeY = a.y + dy * fraction;
@@ -541,8 +550,7 @@ void main() {
       return { inside, x: edge.x, y: edge.y, distance: distance * chairHeight };
     };
     const chairExtents = () => {
-      const cosine = Math.cos(chair.angle);
-      const sine = Math.sin(chair.angle);
+      updateRotation();
       const xs = chairShape.map(point => (point.x * cosine - point.y * sine) * chairHeight);
       const ys = chairShape.map(point => (point.x * sine + point.y * cosine) * chairHeight);
       return { left: Math.min(...xs), right: Math.max(...xs), top: Math.min(...ys), bottom: Math.max(...ys) };
@@ -638,6 +646,18 @@ void main() {
       const deltaSquared = dt * dt;
       const active = age > 0.64;
       const reach = chairHeight * 0.43;
+      const wakeSegments = [];
+      if (active) {
+        for (let index = 1; index < wake.length; index++) {
+          const a = wake[index - 1];
+          const b = wake[index];
+          if (b.age < 0.15) continue;
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const lengthSquared = dx * dx + dy * dy;
+          if (lengthSquared >= 4) wakeSegments.push({ a, b, dx, dy, lengthSquared });
+        }
+      }
       nodes.forEach(node => {
         if (node.pinned) return;
         const vx = clamp((node.x - node.px) * drag, -15, 15);
@@ -649,14 +669,7 @@ void main() {
         if (active) {
           let nearestWake = null;
           let wakeDistanceSquared = reach * reach;
-          for (let index = 1; index < wake.length; index++) {
-            const a = wake[index - 1];
-            const b = wake[index];
-            if (b.age < 0.15) continue;
-            const dx = b.x - a.x;
-            const dy = b.y - a.y;
-            const lengthSquared = dx * dx + dy * dy;
-            if (lengthSquared < 4) continue;
+          for (const { a, b, dx, dy, lengthSquared } of wakeSegments) {
             const fraction = ((node.x - a.x) * dx + (node.y - a.y) * dy) / lengthSquared;
             if (fraction < 0 || fraction > 1) continue;
             const x = a.x + dx * fraction;
@@ -1142,7 +1155,6 @@ void main() {
       frame(dt) {
         previousAge = age;
         age = Math.min(16.4, age + dt);
-        ctx.clearRect(0, 0, W, H);
         ctx.save();
         ctx.strokeStyle = 'rgba(211,227,255,.025)';
         ctx.lineWidth = 0.5 * S;
@@ -1190,6 +1202,7 @@ void main() {
         ctx.fillText(age > 15.7 ? 'CLICK TO UNFOLD AGAIN' : 'WORDS TAKE A WALK', W * 0.5, H * 0.945);
         ctx.restore();
       },
+      isIdle() { return age >= 16.4 && !furniture.length && !letters.length && !meteors.length; },
       pointer(type, p) {
         if (p && Number.isFinite(p.x)) { pointer.x = p.x; pointer.y = p.y; }
         pointer.active = type !== 'leave';
@@ -1349,7 +1362,6 @@ void main() {
           localRelease(pointer.x, pointer.y, false);
           dragCooldown = 0.07;
         }
-        ctx.clearRect(0, 0, W, H);
         ctx.save();
         ctx.fillStyle = blue;
         ctx.textBaseline = 'top';
@@ -1424,6 +1436,7 @@ void main() {
         ctx.fillText(ending ? 'CLICK TO LET THE WORDS FALL AGAIN' : 'LETTERS BECOME RAIN', W * 0.5, H * 0.965);
         ctx.restore();
       },
+      isIdle() { return ending && !droplets.length && !ripples.length && !fragments.length; },
       pointer(type, p) {
         if (p && Number.isFinite(p.x)) {
           pointer.x = p.x; pointer.y = p.y;
