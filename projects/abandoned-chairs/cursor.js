@@ -4,9 +4,9 @@
   if (location.pathname === base.pathname || location.pathname === new URL('index.html', base).pathname) {
     const homeStyles = document.createElement('link');
     homeStyles.rel = 'stylesheet';
-    homeStyles.href = new URL('home.css?v=20261020-home-size-3', base).href;
+    homeStyles.href = new URL('home.css?v=20261022-navigation-close-1', base).href;
     const homeScript = document.createElement('script');
-    homeScript.src = new URL('home.js?v=20261021-section-name-1', base).href;
+    homeScript.src = new URL('home.js?v=20261022-navigation-close-1', base).href;
     document.head.append(homeStyles, homeScript);
   }
   if (!document.getElementById('chairs-about-styles')) {

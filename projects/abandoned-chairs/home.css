@@ -122,8 +122,9 @@
 }
 
 .chairs-home-chair-close:focus-visible {
-  outline: 2px solid #ded2ff;
-  outline-offset: 2px;
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .chairs-home-row:hover {

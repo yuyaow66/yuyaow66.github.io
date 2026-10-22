@@ -113,7 +113,6 @@
 
 .chairs-location-page #center-box input:focus-visible,
 .chairs-location-form button:focus-visible,
-.chairs-location-close:focus-visible,
 .chairs-location-tabs button:focus-visible {
   outline: 2px solid #675793;
   outline-offset: 2px;
@@ -399,9 +398,11 @@
   color: #ded2ff;
 }
 
+.chairs-location-close:focus-visible,
 .chairs-location-about-close:focus-visible {
-  outline: 2px solid #ded2ff;
-  outline-offset: 2px;
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 @keyframes chairs-location-about-in {

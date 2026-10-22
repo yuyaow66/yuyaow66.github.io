@@ -91,7 +91,7 @@ html { background: #19263d; color-scheme: dark; }
 #chairs-poetry-about p { margin: 0 0 20px; }
 .chairs-poetry-about-close { position: fixed; top: 20px; right: 20px; min-width: 44px; min-height: 44px; padding: 0; border: 0; border-radius: 0; color: #faf7ff; background: transparent; font: 400 16px/1 ChairsSupporting, sans-serif; }
 .chairs-poetry-about-close:hover { color: #ded2ff; }
-.chairs-poetry-about-close:focus-visible { outline: 2px solid #ded2ff; outline-offset: 2px; }
+.chairs-poetry-about-close:focus-visible { outline: none; text-decoration: underline; text-underline-offset: 4px; }
 @keyframes chairs-poetry-about-in { from { right: max(-480px, -100vw); } to { right: 0; } }
 @keyframes chairs-poetry-about-out { from { right: 0; } to { right: max(-480px, -100vw); } }
 @keyframes chairs-poetry-about-fade-in { from { opacity: 0; } to { opacity: 1; } }

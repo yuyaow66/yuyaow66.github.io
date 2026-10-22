@@ -15,7 +15,7 @@
   index.innerHTML = `
     <nav class="chairs-home-sections" aria-label="Explore Abandoned Chairs">
       ${sections.map((section, position) => `
-        <a class="chairs-home-row" href="${new URL(section.page, base).href}" ${section.page === 'about.html' ? 'target="_blank" rel="noopener"' : ''} aria-label="${section.name}: ${section.category}${section.page === 'about.html' ? ' (opens in a new tab)' : ''}">
+        <a class="chairs-home-row" href="${new URL(section.page, base).href}" aria-label="${section.name}: ${section.category}">
           <span class="chairs-home-number" aria-hidden="true">${String(position + 1).padStart(2, '0')}</span>
           <span class="chairs-home-name">${section.name}</span>
           <span class="chairs-home-category">${section.category}</span>
