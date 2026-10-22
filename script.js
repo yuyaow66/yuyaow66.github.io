@@ -363,10 +363,12 @@ if (aboutTriggers.length) {
     </div>
     <div class="about-drawer-body">
       <img class="about-drawer-portrait" src="assets/about-illustration.jpg" alt="Portrait illustration by Yuyao Wang" width="128" height="128">
-      <p class="about-english" lang="en">I’m Yuyao Wang, a designer and illustrator currently pursuing a Bachelor of Fine Arts degree at Parsons School of Design. I work on books and websites, and make illustrations. My projects often start with everyday objects and the memories they bring back. I spend time looking at these things, then try different images and compositions to see how they work together.</p>
-      <p class="about-english" lang="en">I use soft colors and layered images to give familiar things a dreamlike feel. When designing books, I think about how the images sit on each page and how the pace of reading changes from one page to the next. When designing websites, I like to include small details that people can discover as they explore. I keep the layout clear so people can find their way around and explore at their own pace.</p>
-      <p class="about-chinese" lang="zh-CN">我是王雨遥，一名设计师和插画师，目前在帕森斯设计学院攻读艺术学士学位。平时做书、做网页，也画插画。我常常从日常物件和它们带来的记忆开始创作，先仔细观察，再尝试不同的图像和构图，看看它们放在一起会有什么感觉。</p>
-      <p class="about-chinese" lang="zh-CN">我喜欢用柔和的色彩和层叠的图像，让熟悉的东西多一点梦境的感觉。做书时，我会考虑图像在页面上怎样摆放，翻到下一页时，阅读的节奏会有什么变化。做网页时，我喜欢留一些可以点击、慢慢发现的小细节，也会花时间理顺页面的结构，让人们在浏览时容易找到方向，可以按自己的节奏探索。</p>
+      <p class="about-english" lang="en">I’m Yuyao Wang, a designer and illustrator currently pursuing a Bachelor of Fine Arts degree at Parsons School of Design. I work on books and websites, and make illustrations.</p>
+      <p class="about-english" lang="en">My projects often start with everyday objects and the memories they bring back. I’m interested in how these things take on a personal meaning, and how memory and imagination change the way we see them. I like to follow these connections and see how an ordinary detail can grow into an image or a story.</p>
+      <p class="about-english" lang="en">I often use soft colors, flowing shapes, and layered images to give familiar things a dreamlike feel. I like bringing figures and objects together in unexpected ways. When designing websites, I carry this approach into small details that people can discover as they explore.</p>
+      <p class="about-chinese" lang="zh-CN">我是王雨遥，一名设计师和插画师，目前在帕森斯设计学院攻读艺术学士学位。平时做书、做网页，也画插画。</p>
+      <p class="about-chinese" lang="zh-CN">我的创作常常从日常物件和它们带来的记忆开始。我感兴趣的是，一件普通的东西为什么会对某个人有特别的意义，又会在记忆和想象中变成什么样子。我喜欢从这些联系出发，看看一个小细节能变成怎样的图像或故事。</p>
+      <p class="about-chinese" lang="zh-CN">我常用柔和的色彩、流动的形态和层叠的图像，让熟悉的东西多一点梦境的感觉。我也喜欢把人物和物件以不太寻常的方式放在一起。做网页时，我会延续这种感觉，留一些可以点击、慢慢发现的小细节。</p>
     </div>`;
   document.body.append(aboutPanel);
   let aboutOpener;
