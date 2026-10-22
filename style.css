@@ -442,15 +442,16 @@ body:has(.about-drawer[open]) { overflow: hidden; }
 .about-close:focus-visible svg { stroke-width: 2.2; }
 .about-close svg { width: 22px; height: 22px; }
 .about-drawer-body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding-right: 4px; }
-.about-drawer-portrait { display: block; width: 96px; height: 96px; margin: 0 0 28px; }
+.about-drawer-portrait { display: block; width: 128px; height: 128px; max-width: 100%; object-fit: cover; margin: 0 0 28px; }
 .about-drawer .about-english { margin: 0; color: var(--project-ink); font-family: var(--body-font); font-size: 16px; line-height: 1.8; font-weight: 400; letter-spacing: 0; }
 .about-drawer .about-chinese { margin: 24px 0 0; color: var(--muted); font-family: "Source Han Sans SC", "PingFang SC", sans-serif; font-size: 16px; line-height: 1.9; font-weight: 300; letter-spacing: .2px; }
+.about-drawer .about-english + .about-english, .about-drawer .about-chinese + .about-chinese { margin-top: 16px; }
 @keyframes about-drawer-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
 @media (max-width: 600px) {
   .about-drawer { padding: 16px 24px 24px; }
   .about-drawer[open] { gap: 20px; }
   .about-drawer-heading h2 { font-size: 25px; }
-  .about-drawer-portrait { width: 80px; height: 80px; margin-bottom: 24px; }
+  .about-drawer-portrait { width: 104px; height: 104px; margin-bottom: 24px; }
   .about-drawer .about-english, .about-drawer .about-chinese { font-size: 15px; }
 }
 @media (prefers-reduced-motion: reduce) {
