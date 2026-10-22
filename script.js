@@ -358,17 +358,17 @@ if (aboutTriggers.length) {
   aboutPanel.setAttribute("aria-labelledby", "about-panel-title");
   aboutPanel.innerHTML = `
     <div class="about-drawer-heading">
-      <h2 id="about-panel-title">About Me</h2>
-      <button class="about-close" type="button" aria-label="Close About Me" autofocus><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg></button>
+      <h2 id="about-panel-title">About</h2>
+      <button class="about-close" type="button" aria-label="Close About" autofocus><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg></button>
     </div>
     <div class="about-drawer-body">
       <img class="about-drawer-portrait" src="assets/about-illustration.jpg" alt="Portrait illustration by Yuyao Wang" width="128" height="128">
-      <p class="about-english" lang="en">I’m Yuyao Wang, a designer and illustrator currently pursuing a Bachelor of Fine Arts degree at Parsons School of Design. I work on books and websites, and make illustrations.</p>
-      <p class="about-english" lang="en">My projects often start with everyday objects and the memories they bring back. I’m interested in how these things take on a personal meaning, and how memory and imagination change the way we see them. I like to follow these connections and see how an ordinary detail can grow into an image or a story.</p>
-      <p class="about-english" lang="en">I often use soft colors, flowing shapes, and layered images to give familiar things a dreamlike feel. I like bringing figures and objects together in unexpected ways. When designing websites, I carry this approach into small details that people can discover as they explore.</p>
-      <p class="about-chinese" lang="zh-CN">我是王雨遥，一名设计师和插画师，目前在帕森斯设计学院攻读艺术学士学位。平时做书、做网页，也画插画。</p>
-      <p class="about-chinese" lang="zh-CN">我的创作常常从日常物件和它们带来的记忆开始。我感兴趣的是，一件普通的东西为什么会对某个人有特别的意义，又会在记忆和想象中变成什么样子。我喜欢从这些联系出发，看看一个小细节能变成怎样的图像或故事。</p>
-      <p class="about-chinese" lang="zh-CN">我常用柔和的色彩、流动的形态和层叠的图像，让熟悉的东西多一点梦境的感觉。我也喜欢把人物和物件以不太寻常的方式放在一起。做网页时，我会延续这种感觉，留一些可以点击、慢慢发现的小细节。</p>
+      <p class="about-english" lang="en">I’m Yuyao Wang, a designer and illustrator studying for a Bachelor of Fine Arts at Parsons School of Design. I work on books and websites.</p>
+      <p class="about-english" lang="en">Many of my projects begin with an everyday object or a familiar phrase. Reading and collected images help me understand the subject; conversations bring in the personal experiences behind it. I use memory and imagination to develop this material into images or stories.</p>
+      <p class="about-english" lang="en">I often layer familiar figures and objects in unexpected combinations. Flowing shapes and soft color give these images a dreamlike feel. On the web, small interactions give visitors a part in how an image or a story unfolds.</p>
+      <p class="about-chinese" lang="zh-CN">我是王雨遥，一名设计师和插画师，目前在帕森斯设计学院攻读艺术学士学位。我主要做书籍和网站设计。</p>
+      <p class="about-chinese" lang="zh-CN">我的项目常从一件日常物品，或一句熟悉的话开始。阅读和收集图像帮助我理解主题，与人交谈则让我接触到背后的个人经历。我会借助记忆与想象，把这些材料发展成图像或故事。</p>
+      <p class="about-chinese" lang="zh-CN">我喜欢把熟悉的人物和物件叠在一起，试着组合出不太寻常的画面。柔和的色彩配合流动的形态，让这些画面带一点梦境的感觉。做网页时，我会设计一些小互动，让浏览的人参与图像或故事的展开。</p>
     </div>`;
   document.body.append(aboutPanel);
   let aboutOpener;
