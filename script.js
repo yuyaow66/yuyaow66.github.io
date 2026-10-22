@@ -442,6 +442,8 @@ function initializeProjectViews(root) {
         showPreviewPoster(video, true);
       }
       buttons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+      image.removeAttribute("srcset");
+      image.closest("picture")?.querySelectorAll("source").forEach((source) => { source.srcset = button.dataset.gallerySrc; });
       image.src = button.dataset.gallerySrc;
       image.alt = button.dataset.galleryAlt;
     }
@@ -495,4 +497,3 @@ function initializeScrollNavigation(root) {
   document.fonts.ready.then(scheduleUpdate);
   update();
 }
-
