@@ -48,10 +48,21 @@ if (document.body.matches(".landing-page, .about-page")) {
 const previewMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const visiblePreviews = new Set();
 
-function showPreviewPoster(video) {
+function showPreviewPoster(video, showButton = false) {
   const media = video.closest(".work-media");
   media.classList.remove("is-playing");
-  media.querySelector(".video-preview-toggle").hidden = false;
+  media.querySelector(".video-preview-toggle").hidden = !showButton;
+}
+
+function canAutoplayPreview(video) {
+  return visiblePreviews.has(video) && !document.hidden && !previewMotion.matches && video.dataset.previewView !== "image";
+}
+
+function showPlayingPreview(video) {
+  if (video.dataset.previewView === "image" || video.hidden) return;
+  const media = video.closest(".work-media");
+  media.classList.add("is-playing");
+  media.querySelector(".video-preview-toggle").hidden = true;
 }
 
 function playVideoPreview(video) {
@@ -59,11 +70,17 @@ function playVideoPreview(video) {
   video.closest(".work-media").classList.remove("preview-error");
   if (video.error) video.load();
   video.muted = true;
+  if (!video.paused) {
+    if (video.readyState >= 2) showPlayingPreview(video);
+    return;
+  }
   try {
     const playback = video.play();
-    if (playback) playback.catch(() => showPreviewPoster(video));
+    if (playback) playback.catch((error) => {
+      if (error.name !== "AbortError" && visiblePreviews.has(video) && video.paused && !document.hidden) showPreviewPoster(video, true);
+    });
   } catch {
-    showPreviewPoster(video);
+    showPreviewPoster(video, true);
   }
 }
 
@@ -72,9 +89,12 @@ const previewObserver = new IntersectionObserver((entries) => {
     const video = entry.target;
     if (entry.isIntersecting && entry.intersectionRatio >= .1) {
       visiblePreviews.add(video);
-      if (!previewMotion.matches && !document.hidden) playVideoPreview(video);
+      video.autoplay = canAutoplayPreview(video);
+      if (video.autoplay) playVideoPreview(video);
+      else if (previewMotion.matches) showPreviewPoster(video, true);
     } else {
       visiblePreviews.delete(video);
+      video.autoplay = false;
       video.pause();
     }
   });
@@ -89,16 +109,21 @@ function initializeVideoPreviews(root) {
     video.muted = true;
     video.defaultMuted = true;
     video.playsInline = true;
+    video.autoplay = false;
+    video.preload = "metadata";
+    video.setAttribute("muted", "");
     video.setAttribute("webkit-playsinline", "");
-    button.hidden = false;
-    video.addEventListener("playing", () => {
-      media.classList.add("is-playing");
-      button.hidden = true;
+    button.hidden = true;
+    video.addEventListener("playing", () => showPlayingPreview(video));
+    video.addEventListener("pause", () => showPreviewPoster(video, canAutoplayPreview(video) || previewMotion.matches || video.dataset.previewView === "image"));
+    ["loadeddata", "canplay"].forEach((event) => {
+      video.addEventListener(event, () => {
+        if (canAutoplayPreview(video)) playVideoPreview(video);
+      });
     });
-    video.addEventListener("pause", () => showPreviewPoster(video));
     video.addEventListener("error", () => {
       media.classList.add("preview-error");
-      showPreviewPoster(video);
+      showPreviewPoster(video, true);
     });
     button.addEventListener("click", () => {
       if (video.dataset.previewView === "image") {
@@ -121,7 +146,7 @@ function initializeVideoPreviews(root) {
         resumeTime = video.currentTime || 0;
         showPreviewPoster(video);
         video.src = source;
-        if (visiblePreviews.has(video) && !previewMotion.matches && !document.hidden) playVideoPreview(video);
+        if (canAutoplayPreview(video)) playVideoPreview(video);
       }
       function restoreVideoPosition() {
         if (resumeTime > 0) video.currentTime = Math.min(resumeTime, video.duration || resumeTime);
@@ -142,6 +167,7 @@ function initializeVideoPreviews(root) {
     videos.forEach((video) => {
       previewObserver.unobserve(video);
       visiblePreviews.delete(video);
+      video.autoplay = false;
       video.pause();
     });
   };
@@ -149,12 +175,23 @@ function initializeVideoPreviews(root) {
 
 function updateVisiblePreviews() {
   visiblePreviews.forEach((video) => {
-    if (document.hidden || previewMotion.matches) video.pause();
+    video.autoplay = canAutoplayPreview(video);
+    if (!video.autoplay) video.pause();
     else playVideoPreview(video);
   });
 }
 
 document.addEventListener("visibilitychange", updateVisiblePreviews);
+window.addEventListener("pageshow", updateVisiblePreviews);
+window.addEventListener("focus", updateVisiblePreviews);
+function retryVisiblePreviews() {
+  visiblePreviews.forEach((video) => {
+    if (canAutoplayPreview(video) && video.paused) playVideoPreview(video);
+  });
+}
+
+document.addEventListener("pointerdown", retryVisiblePreviews, { passive: true });
+document.addEventListener("keydown", retryVisiblePreviews);
 previewMotion.addEventListener("change", updateVisiblePreviews);
 if (document.body.classList.contains("work-page")) {
   const desktopWorkMedia = window.matchMedia("(min-width: 761px)");
@@ -398,7 +435,7 @@ function initializeProjectViews(root) {
         video.dataset.previewView = "image";
         video.pause();
         video.hidden = true;
-        showPreviewPoster(video);
+        showPreviewPoster(video, true);
       }
       buttons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
       image.src = button.dataset.gallerySrc;
@@ -454,3 +491,4 @@ function initializeScrollNavigation(root) {
   document.fonts.ready.then(scheduleUpdate);
   update();
 }
+
