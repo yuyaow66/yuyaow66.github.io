@@ -363,12 +363,14 @@ if (aboutTriggers.length) {
     </div>
     <div class="about-drawer-body">
       <img class="about-drawer-portrait" src="assets/about-illustration.jpg" alt="Portrait illustration by Yuyao Wang" width="128" height="128">
-      <p class="about-english" lang="en">I’m Yuyao Wang, a designer and illustrator studying for a Bachelor of Fine Arts at Parsons School of Design. I work on books and websites.</p>
-      <p class="about-english" lang="en">Many of my projects begin with an everyday object or a familiar phrase. Reading and collected images help me understand the subject; conversations bring in the personal experiences behind it. I use memory and imagination to develop this material into images or stories.</p>
-      <p class="about-english" lang="en">I often layer familiar figures and objects in unexpected combinations. Flowing shapes and soft color give these images a dreamlike feel. On the web, small interactions give visitors a part in how an image or a story unfolds.</p>
-      <p class="about-chinese" lang="zh-CN">我是王雨遥，一名设计师和插画师，目前在帕森斯设计学院攻读艺术学士学位。我主要做书籍和网站设计。</p>
-      <p class="about-chinese" lang="zh-CN">我的项目常从一件日常物品，或一句熟悉的话开始。阅读和收集图像帮助我理解主题，与人交谈则让我接触到背后的个人经历。我会借助记忆与想象，把这些材料发展成图像或故事。</p>
-      <p class="about-chinese" lang="zh-CN">我喜欢把熟悉的人物和物件叠在一起，试着组合出不太寻常的画面。柔和的色彩配合流动的形态，让这些画面带一点梦境的感觉。做网页时，我会设计一些小互动，让浏览的人参与图像或故事的展开。</p>
+      <p class="about-english" lang="en">Yuyao Wang is a designer and illustrator pursuing a BFA in Communication Design at Parsons School of Design.</p>
+      <p class="about-english" lang="en">Born in Hangzhou, China, she attended high school in Maryland, USA. Her work centers on visual storytelling through books, illustration, and websites. She often explores memory, emotion, and individual experience, using images, text, and a range of materials to convey their nuances.</p>
+      <p class="about-english" lang="en">At Parsons, she is exploring animation and interaction through web design. She enjoys the freedom digital media offers to experiment with different forms of expression.</p>
+      <p class="about-english" lang="en">Alongside design and illustration, Wang also works in sculpture, including <em>Statues of Personas</em>.</p>
+      <p class="about-chinese" lang="zh-CN">王雨遥是一名设计师和插画师，目前在帕森斯设计学院攻读传播设计艺术学士学位。</p>
+      <p class="about-chinese" lang="zh-CN">王雨遥出生于中国杭州，高中在美国马里兰州就读。她的创作涵盖书籍设计、插画和网页，喜欢通过图像与文字讲述故事。她的作品常围绕记忆、情绪和个体经验展开，通过图像、文字和不同材料，呈现其中的感受与细节。</p>
+      <p class="about-chinese" lang="zh-CN">在帕森斯学习期间，她也在尝试将动画和互动融入网页设计。她喜欢数字媒介带来的创作自由，也在不断尝试新的表现形式。</p>
+      <p class="about-chinese" lang="zh-CN">在设计与插画之外，王雨遥也进行雕塑创作，作品包括《Statues of Personas》。</p>
     </div>`;
   document.body.append(aboutPanel);
   let aboutOpener;
