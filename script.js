@@ -364,11 +364,11 @@ if (aboutTriggers.length) {
     <div class="about-drawer-body">
       <img class="about-drawer-portrait" src="assets/about-illustration.jpg" alt="Portrait illustration by Yuyao Wang" width="128" height="128">
       <p class="about-english" lang="en">Yuyao Wang is a designer and illustrator pursuing a BFA in Communication Design at Parsons School of Design.</p>
-      <p class="about-english" lang="en">Born in Hangzhou, China, she attended high school in Maryland, USA. Her work centers on visual storytelling through books, illustration, and websites. She often explores memory, emotion, and individual experience, using images, text, and a range of materials to convey their nuances.</p>
+      <p class="about-english" lang="en">Born in Hangzhou, China, she attended high school in Maryland, USA. Her work centers on visual storytelling through books, illustration, and websites. She often explores memory and individual experience, using images, text, and a range of materials to convey their nuances.</p>
       <p class="about-english" lang="en">At Parsons, she is exploring animation and interaction through web design. She enjoys the freedom digital media offers to experiment with different forms of expression.</p>
       <p class="about-english" lang="en">Alongside design and illustration, Wang also works in sculpture, including <em>Statues of Personas</em>.</p>
       <p class="about-chinese" lang="zh-CN">王雨遥是一名设计师和插画师，目前在帕森斯设计学院攻读传播设计艺术学士学位。</p>
-      <p class="about-chinese" lang="zh-CN">王雨遥出生于中国杭州，高中在美国马里兰州就读。她的创作涵盖书籍设计、插画和网页，喜欢通过图像与文字讲述故事。她的作品常围绕记忆、情绪和个体经验展开，通过图像、文字和不同材料，呈现其中的感受与细节。</p>
+      <p class="about-chinese" lang="zh-CN">王雨遥出生于中国杭州，高中在美国马里兰州就读。她的创作涵盖书籍设计、插画和网页，喜欢通过图像与文字讲述故事。她的作品常围绕记忆和个体经验展开，通过图像、文字和不同材料，呈现其中的感受与细节。</p>
       <p class="about-chinese" lang="zh-CN">在帕森斯学习期间，她也在尝试将动画和互动融入网页设计。她喜欢数字媒介带来的创作自由，也在不断尝试新的表现形式。</p>
       <p class="about-chinese" lang="zh-CN">在设计与插画之外，王雨遥也进行雕塑创作，作品包括《Statues of Personas》。</p>
     </div>`;
