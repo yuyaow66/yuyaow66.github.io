@@ -364,7 +364,7 @@ if (aboutTriggers.length) {
     <div class="about-drawer-body">
       <img class="about-drawer-portrait" src="assets/about-illustration.jpg" alt="Portrait illustration by Yuyao Wang" width="128" height="128">
       <p class="about-english" lang="en">Yuyao Wang is a designer and illustrator pursuing a BFA in Communication Design at Parsons School of Design.</p>
-      <p class="about-english" lang="en">Born in Hangzhou, China, she attended high school in Maryland, USA. Her work centers on visual storytelling through books, illustration, and websites. She often explores memory and individual experience, using images, text, and a range of materials to convey their nuances.</p>
+      <p class="about-english" lang="en">Born in Hangzhou, China, she attended high school in Maryland, USA. Her work centers on visual storytelling through books, illustration, and websites. She often explores memory and individual experience, using images, text, and a range of materials to convey their nuances. She also focuses on clarity when communicating her message to the audience.</p>
       <p class="about-english" lang="en">At Parsons, she is exploring animation and interaction through web design. She enjoys the freedom digital media offers to experiment with different forms of expression.</p>
       <p class="about-english" lang="en">Alongside design and illustration, Wang also works in sculpture, including <em>Statues of Personas</em>.</p>
       <p class="about-chinese" lang="zh-CN">王雨遥是一名设计师和插画师，目前在帕森斯设计学院攻读传播设计艺术学士学位。</p>
